@@ -12,6 +12,7 @@ public class ConverterTest {
         assertThat(result, is(1));
     }
 
+
     @Test
     public void when70RubleToEuroThen1() {
         Converter converter = new Converter();
@@ -19,12 +20,14 @@ public class ConverterTest {
         assertThat(result, is(1));
     }
 
+
     @Test
     public void whenRubleToEuroThen70() {
         Converter converter = new Converter();
         int result = converter.euroToRuble(1);
         assertThat(result, is(70));
     }
+
 
     @Test
     public void whenRubleToDollarThen60() {
