@@ -13,8 +13,8 @@ public class DummyBotTest {
     public void whenGreetBot() {
         DummyBot bot = new DummyBot();
         assertThat(
-                bot.answer("Привет, Бот."),
-                is("Привет, умник.")
+                bot.answer("РџСЂРёРІРµС‚, Р‘РѕС‚."),
+                is("РџСЂРёРІРµС‚, СѓРјРЅРёРє.")
         );
     }
 
@@ -22,8 +22,8 @@ public class DummyBotTest {
     public void whenByuBot() {
         DummyBot bot = new DummyBot();
         assertThat(
-                bot.answer("Пока."),
-                is("До скорой встречи.")
+                bot.answer("РџРѕРєР°."),
+                is("Р”Рѕ СЃРєРѕСЂРѕР№ РІСЃС‚СЂРµС‡Рё.")
         );
     }
 
@@ -31,8 +31,8 @@ public class DummyBotTest {
     public void whenUnknownBot() {
         DummyBot bot = new DummyBot();
         assertThat(
-                bot.answer("Сколько будет 2 + 2?"),
-                is("Это ставит меня в тупик. Спросите другой вопрос.")
+                bot.answer("РЎРєРѕР»СЊРєРѕ Р±СѓРґРµС‚ 2 + 2?"),
+                is("Р­С‚Рѕ СЃС‚Р°РІРёС‚ РјРµРЅСЏ РІ С‚СѓРїРёРє. РЎРїСЂРѕСЃРёС‚Рµ РґСЂСѓРіРѕР№ РІРѕРїСЂРѕСЃ.")
         );
     }
 }
