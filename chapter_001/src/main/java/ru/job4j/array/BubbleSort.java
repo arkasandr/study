@@ -9,20 +9,6 @@ import java.util.Arrays;
  */
 public class BubbleSort {
 	public static int[] sort(int[] array) {
-		//int previous;
-		//int next;
-		//for (int j = 0; j < array.length - 1; j++) {
-		//	for (int i = 0; i < array.length - 1; i++) {
-		//		previous = array[i];
-		//		next = array[i + 1];
-				
-		//		if (previous >= next) {
-		//			array[i + 1] = array[i];
-		//			array[i] = next;
-		//			array[i + 1] = previous;
-		//		}
-			//}
-			
 			for (int j = array.length - 1; j > 0; j--) {
 				for (int i = 0; i < j; i++) {
 				if (array[i] > array[i + 1]) {
