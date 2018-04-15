@@ -1,10 +1,10 @@
 package ru.job4j.profession;
 
-public class Main{
+public class Main {
     public static void main(String[] args) {
         Doctor doc1 = new Doctor();
         doc1.nameDoctor();
-        System.out.println("Doc1" + " "+ doc1.getName());
+        System.out.println("Doc1" + " " + doc1.getName());
 
 
         Doctor doc2 = new Doctor();
@@ -14,15 +14,15 @@ public class Main{
 
         Patient pat1 = new Patient();
         pat1.setName("Dave");
-        System.out.println("Patient1"+" "+pat1.getName());
+        System.out.println("Patient1" + " " + pat1.getName());
 
 
         Patient pat2 = new Patient(500);
-        System.out.println(pat1.getName()+" pays "+pat2.getPayment()+" RUB");
+        System.out.println(pat1.getName() + " pays " + pat2.getPayment() + " RUB");
 
         Patient pat3 = new Patient();
         pat3.setName("Bill");
-        System.out.println("Doctor treats "+doc2.treatPatient(pat3));
+        System.out.println("Doctor treats " + doc2.treatPatient(pat3));
 
         House building1 = new House();
         building1.setType("brick");
