@@ -49,13 +49,6 @@ public class ArrayCharNew {
     return false;
 }
 
-
-
-    public static void main(String[] args) throws java.lang.Exception {
-       String origin = "Привет";
-       String sub = "иве";
-       System.out.println(contains(origin, sub));
-   }
 }
 
 
