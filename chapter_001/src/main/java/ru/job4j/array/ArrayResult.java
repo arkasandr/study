@@ -36,10 +36,4 @@ public class ArrayResult {
         return array;
     }
 
-//    public static void main(String[] args) throws java.lang.Exception {
-//        int[] a = {1, 6, 7};
-//        int[] b = {4, 9, 18};
-//        System.out.println(Arrays.toString(result(a, b)));
-//    }
-
 }
