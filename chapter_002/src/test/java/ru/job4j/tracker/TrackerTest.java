@@ -1,13 +1,11 @@
 package ru.job4j.tracker;
 
-
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 
     public class TrackerTest {
-
 
         @Test
         public void whenFindByIdThenTrackerGiveItem() {
@@ -60,7 +58,7 @@ import static org.junit.Assert.assertThat;
             tracker.delete(deleted2.getId());
             Item[] result = {deleted1, deleted3, null};
             assertThat(tracker.findAll(), is(result));
-            }
+        }
 
         @Test
         public void whenReplaceNameThenReturnNewName() {
@@ -72,6 +70,5 @@ import static org.junit.Assert.assertThat;
             tracker.replace(previous.getId(), next);
             assertThat(tracker.findById(previous.getId()).getName(), is("test2"));
         }
-
     }
 

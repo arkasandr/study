@@ -10,7 +10,6 @@ public class Item {
     private String id;
 
     public Item() {
-
     }
 
     public Item(String name, String description) {

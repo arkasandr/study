@@ -103,7 +103,6 @@ public class Tracker {
         }
     }
 
-
     /**
      * метод удаляет заявку.
      *
@@ -117,7 +116,6 @@ public class Tracker {
             }
         }
     }
-
 }
 
 
