@@ -1,5 +1,6 @@
 package ru.job4j.tracker;
 import java.util.*;
+
 /**
  * @author Alex Arks (arkaleks@yandex.ru)
  * @version $Id$
@@ -87,7 +88,6 @@ public class Tracker {
         }
         return result;
     }
-
 
     /**
      * метод заменяет заявку.
