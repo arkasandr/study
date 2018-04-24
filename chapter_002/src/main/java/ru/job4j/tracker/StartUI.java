@@ -150,10 +150,12 @@ public class StartUI {
         String key = this.input.ask("Введите имя заявки :");
         System.out.println("------- Список найденных заявок с уникальным номером Id: ");
         for (int index = 0; index < this.tracker.findByName(key).length; index++) {
-            System.out.println(this.tracker.findByName(key)[index].getId());
+            if (this.tracker.findByName(key) != null) {
+                System.out.println(this.tracker.findByName(key)[index].getId());
+            }
         }
     }
-    
+
 
     private void showMenu() {
         System.out.println("Меню.");

@@ -2,11 +2,11 @@ package ru.job4j.tracker;
 
 
 public class Item {
-    public String name;
+    private String name;
 
-    public String description;
+    private String description;
 
-    public long create;
+    private long create;
 
     private String id;
 
