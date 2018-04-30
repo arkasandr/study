@@ -74,6 +74,7 @@ public class StartUITest {
         assertThat(tracker.findAll()[0].getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
     }
 
+
     @Test
     public void whenUpdateThenTrackerHasUpdatedValue() {
         // создаём Tracker
@@ -129,11 +130,11 @@ public class StartUITest {
                                 .append("3. Удалить заявку." + "\r" + "\n")
                                 .append("4. Найти заявку по id." + "\r" + "\n")
                                 .append("5. Найти заявку по имени." + "\r" + "\n")
-                                .append("6. Выход из программы." + "\r" + "\n")
+                                .append("6. Выйти из программы." + "\r" + "\n")
                                 .append("------------ Список всех заявок --------------" + "\r" + "\n")
-                                .append("Имя заявки null; Id заявки " + item1.getId() + "\r" + "\n")
+                                .append("Имя заявки null. Id заявки " + item1.getId() + "." + "\r" + "\n")
                                 .append("---------------------------------------------" + "\r" + "\n")
-                                .append("Имя заявки null; Id заявки " + item2.getId() + "\r" + "\n")
+                                .append("Имя заявки null. Id заявки " + item2.getId() + "." + "\r" + "\n")
                                 .append("---------------------------------------------" + "\r" + "\n")
                                 .append("Меню." + "\r" + "\n")
                                 .append("0. Добавить новую заявку." + "\r" + "\n")
@@ -142,7 +143,7 @@ public class StartUITest {
                                 .append("3. Удалить заявку." + "\r" + "\n")
                                 .append("4. Найти заявку по id." + "\r" + "\n")
                                 .append("5. Найти заявку по имени." + "\r" + "\n")
-                                .append("6. Выход из программы.")
+                                .append("6. Выйти из программы.")
                                 .append(System.lineSeparator())
                                 .toString()
                 )
@@ -171,9 +172,9 @@ public class StartUITest {
                                 .append("3. Удалить заявку." + "\r" + "\n")
                                 .append("4. Найти заявку по id." + "\r" + "\n")
                                 .append("5. Найти заявку по имени." + "\r" + "\n")
-                                .append("6. Выход из программы." + "\r" + "\n")
+                                .append("6. Выйти из программы." + "\r" + "\n")
                                 .append("------ Поиск заявки по уникальному номеру Id ------" + "\r" + "\n")
-                                .append("------- Найдена заявка с именем: null" + " -------" + "\r" + "\n")
+                                .append("------- Найдена заявка с именем: null" + "\r" + "\n")
                                 .append("Меню." + "\r" + "\n")
                                 .append("0. Добавить новую заявку." + "\r" + "\n")
                                 .append("1. Показать все заявки." + "\r" + "\n")
@@ -181,7 +182,7 @@ public class StartUITest {
                                 .append("3. Удалить заявку." + "\r" + "\n")
                                 .append("4. Найти заявку по id." + "\r" + "\n")
                                 .append("5. Найти заявку по имени." + "\r" + "\n")
-                                .append("6. Выход из программы.")
+                                .append("6. Выйти из программы.")
                                 .append(System.lineSeparator())
                                 .toString()
                 )
@@ -211,7 +212,7 @@ public class StartUITest {
                                 .append("3. Удалить заявку." + "\r" + "\n")
                                 .append("4. Найти заявку по id." + "\r" + "\n")
                                 .append("5. Найти заявку по имени." + "\r" + "\n")
-                                .append("6. Выход из программы." + "\r" + "\n")
+                                .append("6. Выйти из программы." + "\r" + "\n")
                                 .append("---------- Поиск заявки по имени  ----------" + "\r" + "\n")
                                 .append("------- Список найденных заявок с уникальным номером Id: " + "\r" + "\n" + item1.getId() + "\r" + "\n")
                                 .append("Меню." + "\r" + "\n")
@@ -221,7 +222,7 @@ public class StartUITest {
                                 .append("3. Удалить заявку." + "\r" + "\n")
                                 .append("4. Найти заявку по id." + "\r" + "\n")
                                 .append("5. Найти заявку по имени." + "\r" + "\n")
-                                .append("6. Выход из программы.")
+                                .append("6. Выйти из программы.")
                                 .append(System.lineSeparator())
                                 .toString()
                 )

@@ -48,11 +48,13 @@ public class MenuTracker {
         }
 
         public void execute(Input input, Tracker tracker) {
+            System.out.println("---------- Поиск заявки по имени  ----------");
             String name = input.ask("Введите имя заявки :");
             tracker.findByName(name);
             for (int index = 0; index < tracker.findByName(name).length; index++) {
                 if (tracker.findByName(name)[index] != null) {
-                    System.out.println("Найдена заявка с уникальным номером Id: " + tracker.findByName(name)[index].getId());
+                    System.out.println("------- Список найденных заявок с уникальным номером Id: ");
+                    System.out.println(tracker.findByName(name)[index].getId());
                 }
             }
         }
@@ -64,7 +66,6 @@ public class MenuTracker {
     }
 
 
-
     public MenuTracker(Input input, Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
@@ -74,6 +75,7 @@ public class MenuTracker {
      * Метод инициализирует события.
      */
     public void fillActions() {
+        System.out.println("Меню.");
         this.actions[0] = new AddItem();
         this.actions[1] = new MenuTracker.ShowItems();
         this.actions[2] = new EditItem();
@@ -130,9 +132,11 @@ public class MenuTracker {
         }
 
         public void execute(Input input, Tracker tracker) {
+            System.out.println("------------ Список всех заявок --------------");
             for (Item item : tracker.findAll()) {
                 if (item != null) {
-                    System.out.println(String.format("%s. %s", item.getId(), item.getName()));
+                    System.out.println(String.format("%s. %s", "Имя заявки " + item.getName(), "Id заявки " + item.getId() + "."));
+                    System.out.println("---------------------------------------------");
                 }
             }
         }
@@ -169,11 +173,11 @@ public class MenuTracker {
         }
 
         public void execute(Input input, Tracker tracker) {
+            System.out.println("------ Поиск заявки по уникальному номеру Id ------");
             String id = input.ask("Введите Id заявки :");
             tracker.findById(id);
-            System.out.println("Найдена заявка с именем: " + tracker.findById(id).getName());
+            System.out.println("------- Найдена заявка с именем: " + tracker.findById(id).getName());
                 }
-
 
         public String info() {
             return String.format("%s. %s", this.key(), "Найти заявку по id.");
@@ -189,15 +193,12 @@ public class MenuTracker {
         }
 
         public void execute(Input input, Tracker tracker) {
-            System.out.println("Программа будет закрыта");
         }
-
 
         public String info() {
             return String.format("%s. %s", this.key(), "Выйти из программы.");
         }
     }
-
 
 
 }
