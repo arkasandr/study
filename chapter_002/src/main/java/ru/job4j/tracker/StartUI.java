@@ -1,6 +1,7 @@
 package ru.job4j.tracker;
 
 public class StartUI {
+
     /**
      * Получение данных от пользователя.
      */
@@ -30,7 +31,7 @@ public class StartUI {
             MenuTracker menu = new MenuTracker(this.input, this.tracker);
             menu.fillActions();
             menu.show();
-            int key = Integer.valueOf(input.ask("Введите пункт меню : "));
+            int key = Integer.valueOf(input.ask("Введите пункт меню: ", menu.getActions()));
             if (key == 6) {
                 exit = true;
             } else {
@@ -45,7 +46,7 @@ public class StartUI {
      * @param args
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput(), new Tracker()).init();
+        new StartUI(new ValidateInput(), new Tracker()).init();
     }
 }
 

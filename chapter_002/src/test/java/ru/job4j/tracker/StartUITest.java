@@ -32,6 +32,7 @@ public class StartUITest {
         private int position;
 
 
+
         public StubInput(final String[] value) {
             this.value = value;
         }
@@ -47,6 +48,11 @@ public class StartUITest {
         @Override
         public String ask(String question) {
             return this.value[this.position++];
+        }
+
+        @Override
+        public int ask(String question, int[] range) {
+            throw new UnsupportedOperationException("Операция не поддерживается.");
         }
     }
 

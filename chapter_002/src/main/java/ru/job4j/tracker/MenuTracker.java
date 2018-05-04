@@ -17,6 +17,17 @@ public class MenuTracker {
     private UserAction[] actions = new UserAction[7];
 
     /**
+     * Метод формирует массив пунктоа меню.
+     */
+    public int[] getActions() {
+       int[] range = new int[this.actions.length];
+        for (int i = 0; i < actions.length; i++) {
+             range[i] = i;
+       }
+        return range;
+   }
+
+    /**
      * Класс реализует редактирование заявки.
      */
     class EditItem implements UserAction {
