@@ -31,11 +31,10 @@ public class StartUI {
             MenuTracker menu = new MenuTracker(this.input, this.tracker);
             menu.fillActions();
             menu.show();
-            int key = Integer.valueOf(input.ask("Введите пункт меню: ", menu.getActions()));
+            int key = this.input.ask("Введите пункт меню : ", menu.getActions());
+            menu.select(key);
             if (key == 6) {
                 exit = true;
-            } else {
-                menu.select(key);
             }
         }
     }
