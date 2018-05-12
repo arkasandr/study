@@ -16,6 +16,7 @@ public class MenuTracker {
      */
     private UserAction[] actions = new UserAction[7];
 
+
     /**
      * Метод формирует массив пунктоа меню.
      */
@@ -30,9 +31,9 @@ public class MenuTracker {
     /**
      * Класс реализует редактирование заявки.
      */
-    class EditItem implements UserAction {
-        public int key() {
-            return 2;
+    class EditItem extends BaseAction {
+        public EditItem(int key, String name) {
+            super(key, name);
         }
 
         public void execute(Input input, Tracker tracker) {
@@ -43,19 +44,14 @@ public class MenuTracker {
             item.setId(id);
             tracker.replace(id, item);
         }
-
-        public String info() {
-            return String.format("%s. %s", this.key(), "Редактировать заявку.");
-        }
-
     }
 
     /**
      * Класс реализует поиск заявки по имени.
      */
-    class ShowItemByName implements UserAction {
-        public int key() {
-            return 5;
+    class ShowItemByName extends BaseAction {
+        public ShowItemByName(int key, String name) {
+            super(key, name);
         }
 
         public void execute(Input input, Tracker tracker) {
@@ -69,11 +65,6 @@ public class MenuTracker {
                 }
             }
         }
-
-        public String info() {
-            return String.format("%s. %s", this.key(), "Найти заявку по имени.");
-        }
-
     }
 
 
@@ -87,14 +78,15 @@ public class MenuTracker {
      */
     public void fillActions() {
         System.out.println("Меню.");
-        this.actions[0] = new AddItem();
-        this.actions[1] = new MenuTracker.ShowItems();
-        this.actions[2] = new EditItem();
-        this.actions[3] = new DeleteItem();
-        this.actions[4] = new MenuTracker.ShowItemById();
-        this.actions[5] = new ShowItemByName();
-        this.actions[6] = new ExitTracker();
+        this.actions[0] = this.new AddItem(0, "Добавить новую заявку.");
+        this.actions[1] = new MenuTracker.ShowItems(1, "Показать все заявки.");
+        this.actions[2] = new EditItem(2, "Редактировать заявку.");
+        this.actions[3] = new DeleteItem(3, "Удалить заявку.");
+        this.actions[4] = new MenuTracker.ShowItemById(4, "Найти заявку по id.");
+        this.actions[5] = new ShowItemByName(5, "Найти заявку по имени.");
+        this.actions[6] = new ExitTracker(6, "Выйти из программы.");
     }
+
 
     /**
      * Метод реализует выбранное событие.
@@ -117,9 +109,9 @@ public class MenuTracker {
     /**
      * Метод реализует добавление новый заявки в хранилище.
      */
-    private class AddItem implements UserAction {
-        public int key() {
-            return 0;
+    private class AddItem extends BaseAction {
+        public AddItem(int key, String name) {
+            super(key, name);
         }
 
         public void execute(Input input, Tracker tracker) {
@@ -128,18 +120,14 @@ public class MenuTracker {
             Item item = new Item(name, desc);
             tracker.add(item);
         }
-
-        public String info() {
-            return String.format("%s. %s", this.key(), "Добавить новую заявку.");
-        }
     }
 
     /**
      * Метод реализует вывод всех заявок из хранилища.
      */
-    private static class ShowItems implements UserAction {
-        public int key() {
-            return 1;
+    private static class ShowItems extends BaseAction {
+        public ShowItems(int key, String name) {
+            super(key, name);
         }
 
         public void execute(Input input, Tracker tracker) {
@@ -151,36 +139,28 @@ public class MenuTracker {
                 }
             }
         }
-
-        public String info() {
-            return String.format("%s. %s", this.key(), "Показать все заявки.");
-        }
     }
 
     /**
      * Метод реализует удаление заявки из хранилища.
      */
-    private class DeleteItem implements UserAction {
-        public int key() {
-            return 3;
+    private class DeleteItem extends BaseAction {
+        public DeleteItem(int key, String name) {
+            super(key, name);
         }
 
         public void execute(Input input, Tracker tracker) {
             String id = input.ask("Введите Id заявки :");
             tracker.delete(id);
         }
-
-        public String info() {
-            return String.format("%s. %s", this.key(), "Удалить заявку.");
-        }
     }
 
     /**
      * Метод реализует вывод заявки из хранилища по Id
      */
-    private static class ShowItemById implements UserAction {
-        public int key() {
-            return 4;
+    private static class ShowItemById extends BaseAction {
+        public ShowItemById(int key, String name) {
+            super(key, name);
         }
 
         public void execute(Input input, Tracker tracker) {
@@ -189,25 +169,17 @@ public class MenuTracker {
             tracker.findById(id);
             System.out.println("------- Найдена заявка с именем: " + tracker.findById(id).getName());
                 }
-
-        public String info() {
-            return String.format("%s. %s", this.key(), "Найти заявку по id.");
-        }
     }
 
     /**
      * Метод реализует выход из программы
      */
-    private static class ExitTracker implements UserAction {
-        public int key() {
-            return 6;
+    private static class ExitTracker extends BaseAction {
+        public ExitTracker(int key, String name) {
+            super(key, name);
         }
 
         public void execute(Input input, Tracker tracker) {
-        }
-
-        public String info() {
-            return String.format("%s. %s", this.key(), "Выйти из программы.");
         }
     }
 
