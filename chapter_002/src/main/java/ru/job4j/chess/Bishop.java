@@ -31,7 +31,6 @@ public class Bishop extends Figure {
         int ydest = dest.getY();
         int size = Math.abs(xsource - xdest);
         Cell[] cells = new Cell[size];
-        Cell[] result = cells;
 
         if (Math.abs(xsource - xdest) == Math.abs(ysource - ydest)) {
                 if (xdest - xsource > 0) {
@@ -58,6 +57,6 @@ public class Bishop extends Figure {
         } else {
             throw new ImpossibleMoveException("Так ходить нельзя!");
         }
-        return result;
+        return cells;
     }
 }

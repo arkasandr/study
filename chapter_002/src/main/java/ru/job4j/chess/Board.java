@@ -19,8 +19,8 @@ public class Board {
     /**
      * метод проверяет, есть ли фигура в клетке source, может ли фигура пройти в указанную клетку dest, и свободен ли путь для фигуры.
      */
-    boolean move(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
-        boolean result = false;
+    public boolean move(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
+        //boolean result = false;
         for (Figure figure : figures) {
             if (!checkCell(source)) {
                 Cell[] track = (figure.way(source, dest));
@@ -37,7 +37,7 @@ public class Board {
             figure.copy(dest);
             return true;
         }
-            return result;
+            return false;
     }
     /**
      * метод проверяет, есть ли фигура в клетке source
