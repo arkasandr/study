@@ -1,13 +1,13 @@
 package ru.job4j.coffeemachine;
 
-import java.util.Arrays;
-
 public class Coffeemachine {
 
     int[] coins = {1, 2, 5, 10};
     String[] result = new String[4];
-   String[] result1 = {"по 1 руб - ", "по 2 руб - ", "по 5 руб - ", "по 10 руб - "};
-   int i = 0, y, k = coins.length;
+    String[] result1 = {"по 1 руб - ", "по 2 руб - ", "по 5 руб - ", "по 10 руб - "};
+    private int i = 0;
+    private int y;
+    private int k = coins.length;
 
     public String[] changes(int value, int price) {
         int delta = value - price;
@@ -26,10 +26,5 @@ public class Coffeemachine {
             while (y != 0 && coins[--y] > delta) ;
         } while (i < coins.length && delta > 0);
        return result;
-    }
-
-    public static void main(String[] args) {
-        Coffeemachine cup = new Coffeemachine();
-        System.out.println(Arrays.toString(cup.changes(100, 91)));
     }
 }
