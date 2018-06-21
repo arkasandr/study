@@ -23,9 +23,4 @@ public class Coffeemachine2 {
         }
         return finalResult;
     }
-
-    public static void main(String[] args) {
-        Coffeemachine2 cof = new Coffeemachine2();
-        System.out.println(Arrays.toString(cof.changes(100,91)));
-    }
 }

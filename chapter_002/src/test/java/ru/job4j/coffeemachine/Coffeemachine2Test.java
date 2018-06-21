@@ -13,6 +13,7 @@ import static org.junit.Assert.assertThat;
             assertThat(cup.changes(100, 91), is(expect));
         }
 
+
         @Test
         public void whenFiftysevenThenTenTenTenTenTwoOne() {
             Coffeemachine2 cup = new Coffeemachine2();
