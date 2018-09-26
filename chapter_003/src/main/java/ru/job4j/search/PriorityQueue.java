@@ -11,13 +11,18 @@ public class PriorityQueue {
      * Для вставик использовать add(int index, E value)
      * @param task задача
      */
+
     public void put(Task task) {
         int count = 0;
         if (tasks.isEmpty() || tasks.get(count).getPriority() >= task.getPriority()) {
             tasks.add(count, task);
-        } else if (tasks.get(count).getPriority() <= task.getPriority()) {
-            count++;
-            tasks.add(count, task);
+        } else {
+            for (count = 0; count <= tasks.size() - 1; count++) {
+            if (task.getPriority() < tasks.get(count).getPriority()) {
+                tasks.add(count, task);
+                return;
+             }
+            }
         }
     }
 
@@ -25,4 +30,3 @@ public class PriorityQueue {
         return this.tasks.poll();
     }
 }
-
