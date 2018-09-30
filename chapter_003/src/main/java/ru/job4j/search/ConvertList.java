@@ -8,10 +8,9 @@ public class ConvertList {
 
         public List<Integer> convert(List<int[]> list) {
             List<Integer> result = new ArrayList<>();
-
             for (int[] a : list) {
-                for (int i = 0; i <= a.length - 1; i++) {
-                    result.addAll(Arrays.asList(a[i]));
+                for (int i : a) {
+                    result.addAll(Arrays.asList(i));
                 }
             }
             return result;
