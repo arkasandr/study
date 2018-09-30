@@ -10,7 +10,7 @@ public class ConvertList {
             List<Integer> result = new ArrayList<>();
             for (int[] a : list) {
                 for (int i : a) {
-                    result.addAll(Arrays.asList(i));
+                    result.add(i);
                 }
             }
             return result;
