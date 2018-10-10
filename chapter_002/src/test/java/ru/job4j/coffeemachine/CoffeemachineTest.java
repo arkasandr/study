@@ -1,22 +1,27 @@
 package ru.job4j.coffeemachine;
 
 import org.junit.Test;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 
 public class CoffeemachineTest {
+    private Coffeemachine coffeeMachine = new Coffeemachine();
 
-    @Test
-    public void whenNintyOneThenTwoTwoFive() {
-        Coffeemachine cup = new Coffeemachine();
-        String[] expect = {null, "по 2 руб - 2шт.", "по 5 руб - 1шт.", null};
-        assertThat(cup.changes(100, 91), is(expect));
+    List<Integer> coins(Integer... ints) {
+        return new ArrayList<>(Arrays.asList(ints));
     }
 
     @Test
-    public void whenFiftysevenThenTenTenTenTenTwoOne() {
-        Coffeemachine cup = new Coffeemachine();
-        String[] expect = {"по 1 руб - 1шт.", "по 2 руб - 1шт.", null, "по 10 руб - 4шт."};
-        assertThat(cup.changes(100, 57), is(expect));
+    public void banknote50price35changeFor15() {
+        assertEquals(coins(10, 5), coffeeMachine.change(50, 35));
+    }
+
+    @Test
+    public void changeFor7() {
+        assertEquals(coins(5, 2), coffeeMachine.change(100, 93));
     }
 }
