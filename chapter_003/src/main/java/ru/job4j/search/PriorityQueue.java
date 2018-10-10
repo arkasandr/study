@@ -12,11 +12,8 @@ public class PriorityQueue {
      */
 
     public void put(Task task) {
-      int count = 0;
+      int count;
         int temp = tasks.size();
-            if (tasks.isEmpty()) {
-                tasks.add(count, task);
-            } else {
            for (count = 0; count <= tasks.size() - 1; count++) {
             if (task.getPriority() < tasks.get(count).getPriority()) {
                 temp = count;
@@ -25,7 +22,6 @@ public class PriorityQueue {
             }
         tasks.add(temp, task);
         }
-    }
 
     public Task take() {
         return this.tasks.poll();
