@@ -78,6 +78,15 @@ public class BankTest {
 
     @Test
     public void whenTransferMoneyThenDeltaAccounts() {
+        Bank vtb = new Bank();
+        vtb.addUser(new User("Smirnov", "5504 116280"));
+        vtb.addUser(new User("Petrov", "1200 567019"));
+        Account userAcc1 = new Account(145000D, "1001");
+        Account userAcc2 = new Account(20D, "1002");
+        vtb.addAccountToUser("5504 116280", userAcc1);
+        vtb.addAccountToUser("1200 567019", userAcc2);
+        //vtb.transferMoney("5504 116280","1001", "1200 567019", "1002", 100D);
+        assertThat(vtb.transferMoney("5504 116280","1001", "1200 567019", "1002", 144000D), is(true));
 
     }
 

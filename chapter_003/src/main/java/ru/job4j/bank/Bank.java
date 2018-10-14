@@ -77,55 +77,31 @@ public class Bank {
     }
 
 
-//        /**
-//         * Метод переводит деньги с одного счета на другой, если счет не найден или не хватает денег , то возвращает false.
-//         */
-//    public boolean transferMoney (String srcPassport, String srcRequisite, String destPassport, String destRequisite, double amount){
-//        boolean result = false;
-//            List<Account> srcAccounts = new ArrayList<>();
-//            List<Account> destAccounts = new ArrayList<>();
-//        for (HashMap.Entry<User, List<Account>> entry1 : bank.entrySet()) {
-//            if (entry1 != null && entry1.getKey().getPassport().equals(srcPassport)) {
-//                srcAccounts = entry1.getValue();
-//                for (HashMap.Entry<User, List<Account>> entry2 : bank.entrySet()) {
-//                if (entry2 != null && entry2.getKey().getPassport().equals(destPassport)) {
-//                    destAccounts = entry2.getValue();
-//                    for (Account a:srcAccounts) {
-//                        if(a != null && a.getRequisites().equals(srcRequisite)) {
-//
-//                        }
-//                    }
-//                         ) {
-//
-//                    }
-//                }
-//
-//            }
-//
-//
-//            }
-//        }
+        /**
+         * Метод переводит деньги с одного счета на другой, если счет не найден или не хватает денег , то возвращает false.
+         */
+    public boolean transferMoney (String srcPassport, String srcRequisite, String destPassport, String destRequisite, double amount) {
+        boolean result = true;
+        List<Account> srcAccounts = bank.get(getUser(srcPassport));
+        List<Account> destAccounts = bank.get(getUser(destPassport));
+        for (Account acc1 : srcAccounts
+        ) {
+            if (acc1.getRequisites().equals(srcRequisite) && acc1.getValue() >= amount) {
+                for (Account acc2 : destAccounts
+                ) {
+                    if (acc2.getRequisites().equals(destRequisite)) {
+                        acc2.setValue(acc2.getValue() + amount);
+                    } else {
+                        result = false;
+                    }
+                }
 
-
-
-//        for (Account srcAcc:srcAccounts) {
-//            if(srcAcc.getRequisites().equals(srcRequisite)) {
-//                //List<Account> destAccounts = new ArrayList<>();
-//                for (HashMap.Entry<User, List<Account>> entry : bank.entrySet()) {
-//                    if (entry != null && entry.getKey().getPassport().equals(destPassport)) {
-//                        //destAccounts = entry.getValue();
-//
-//                    }
-//                }
-//
-//            }
-//        }
-
-//
-//    boolean b = true;
-//    return b;
-//   }
-
+            } else {
+                result = false;
+            }
+        }
+        return result;
+    }
 
     }
 
