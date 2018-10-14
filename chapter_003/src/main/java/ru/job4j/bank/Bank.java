@@ -32,7 +32,7 @@ public class Bank {
     public void addAccountToUser(String passport, Account account) {
         for (HashMap.Entry<User, List<Account>> user : bank.entrySet()) {
             if (user.getKey().getPassport().equals(passport)) {
-                bank.get(user).add(account);
+                user.getValue().add(account);
             }
         }
     }
@@ -40,11 +40,17 @@ public class Bank {
         /**
          * Метод удаляет у пользователя банковский счет.
          //     */
-//    public void deleteAccountFromUser(String passport, )
+    public void deleteAccountFromUser(String passport, Account account) {
+        for (HashMap.Entry<User, List<Account>> user : bank.entrySet()) {
+            if (user.getKey().getPassport().equals(passport)) {
+                user.getValue().remove(account);
+            }
+        }
+    }
 
-//    /**
-//     * Метод получает список банковских счетов пользователя.
-//     */
+    /**
+     * Метод получает список банковских счетов пользователя.
+     */
 
         public List<Account> getUserAccounts(String passport) {
             List<Account> accounts = new ArrayList<>();
@@ -60,39 +66,67 @@ public class Bank {
         /**
          * Метод возвращает пользователя.
          */
-//    public User getUser(String passport) {
-//        User wanted = new User();
-//        for (HashMap.Entry<User, List<Account>> entry : bank.entrySet()) {
-//           if(entry.getKey().getPassport().equals(passport)) {
-//               wanted = entry.getKey();
-//           }
-//        }
-//        return wanted;
-//    }
+    public User getUser(String passport) {
+        User wanted = new User();
+        for (HashMap.Entry<User, List<Account>> entry : bank.entrySet()) {
+           if (entry.getKey().getPassport().equals(passport)) {
+               wanted = entry.getKey();
+           }
+        }
+        return wanted;
+    }
 
 
-        /**
-         * Метод переводит деньги с одного счета на другой, если счет не найден или не хватает денег , то возвращает false.
-         */
+//        /**
+//         * Метод переводит деньги с одного счета на другой, если счет не найден или не хватает денег , то возвращает false.
+//         */
 //    public boolean transferMoney (String srcPassport, String srcRequisite, String destPassport, String destRequisite, double amount){
+//        boolean result = false;
+//            List<Account> srcAccounts = new ArrayList<>();
+//            List<Account> destAccounts = new ArrayList<>();
+//        for (HashMap.Entry<User, List<Account>> entry1 : bank.entrySet()) {
+//            if (entry1 != null && entry1.getKey().getPassport().equals(srcPassport)) {
+//                srcAccounts = entry1.getValue();
+//                for (HashMap.Entry<User, List<Account>> entry2 : bank.entrySet()) {
+//                if (entry2 != null && entry2.getKey().getPassport().equals(destPassport)) {
+//                    destAccounts = entry2.getValue();
+//                    for (Account a:srcAccounts) {
+//                        if(a != null && a.getRequisites().equals(srcRequisite)) {
+//
+//                        }
+//                    }
+//                         ) {
+//
+//                    }
+//                }
+//
+//            }
+//
+//
+//            }
+//        }
+
+
+
+//        for (Account srcAcc:srcAccounts) {
+//            if(srcAcc.getRequisites().equals(srcRequisite)) {
+//                //List<Account> destAccounts = new ArrayList<>();
+//                for (HashMap.Entry<User, List<Account>> entry : bank.entrySet()) {
+//                    if (entry != null && entry.getKey().getPassport().equals(destPassport)) {
+//                        //destAccounts = entry.getValue();
+//
+//                    }
+//                }
+//
+//            }
+//        }
+
+//
 //    boolean b = true;
 //    return b;
 //   }
-//        public static void main (String[] args){
-//            Bank newSber = new Bank();
-//            newSber.addUser(new User("Petrov", "1200 567019"));
 
-//        newSber.addUser(new User("Smirnov", "5504 116280"));
-//        newSber.addAccountToUser("1200 567019", new Account(145000, "1001"));
-//        newSber.getUserAccounts("1200 567019");
-//
-//
-//        System.out.println(Arrays.asList(newSber));
-//       System.out.println(Arrays.asList(newSber.getUserAccounts("1200 567019")));
-//       //System.out.println(newSber.getUserAccounts("1200 567019").toArray());
-//
-//
-        //}
+
     }
 
 

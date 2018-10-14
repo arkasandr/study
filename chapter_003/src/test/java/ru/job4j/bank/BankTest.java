@@ -11,26 +11,79 @@ import static org.junit.Assert.assertThat;
 
 public class BankTest {
 
-//    @Test
-//    public void whenAddUserWithOutAccount() {
-//        Bank vtb = new Bank();
-//        vtb.addUser(new User("Petrov", "1200 567019"));
-//        List<Account> client = vtb.getUserAccounts("Petrov");
-//        assertThat(client.toString(), is("[]"));
-//    }
-//
-//    @Test
-//    public void whenDeleteUser() {
-//        Bank vtb = new Bank();
-//        //vtb.addUser(new User("Petrov", "1200 567019"));
-//        vtb.addUser(new User("Smirnov", "5504 116280"));
-//        //vtb.deleteUser(new User("Smirnov", "5504 116280"));
-//        vtb.deleteUser(new User("Smirnov", "5504 116280"));
-//        //List<Account> client = vtb.getUserAccounts("Petrov");
-//        vtb.getUserAccounts("5504 116280").toString();
+    @Test
+    public void whenAddUserWithOutAccountThenEmptyValue() {
+        Bank vtb = new Bank();
+        vtb.addUser(new User("Petrov", "1200 567019"));
+        List<Account> client = vtb.getUserAccounts("Petrov");
+        assertThat(client.toString(), is("[]"));
+    }
 
-       // assertThat(client.toString(), is("[]"));
-        //assertThat(vtb.getUser("5504 116280").toString(), is("null"));
-   // }
+    @Test
+    public void whenDeleteUserThenUserIsAbsent() {
+        Bank vtb = new Bank();
+        User user = new User("Smirnov", "5504 116280");
+        vtb.addUser(user);
+        vtb.deleteUser(user);
+        assertThat(vtb.getUser("5504 116280").equals(user), is(false));
+    }
+
+    @Test
+    public void whenAddAccountToUserThenValueIsNotEmpty() {
+        Bank vtb = new Bank();
+        User user = new User("Smirnov", "5504 116280");
+        vtb.addUser(user);
+        Account userAcc1 = new Account(145000D, "1001");
+        Account userAcc2 = new Account(20D, "1002");
+        List<Account> accounts = new ArrayList<>();
+        accounts.add(userAcc1);
+        accounts.add(userAcc2);
+        vtb.addAccountToUser(user.getPassport(), userAcc1);
+        vtb.addAccountToUser(user.getPassport(), userAcc2);
+        assertThat(vtb.getUserAccounts(user.getPassport()), is(accounts));
+    }
+
+    @Test
+    public void whenDeleteAccountFromUserThenValueIsEmpty() {
+        Bank vtb = new Bank();
+        User user = new User("Smirnov", "5504 116280");
+        vtb.addUser(user);
+        Account userAcc1 = new Account(145000D, "1001");
+        Account userAcc2 = new Account(20D, "1002");
+        List<Account> accounts = new ArrayList<>();
+        accounts.add(userAcc1);
+        accounts.add(userAcc2);
+        vtb.addAccountToUser(user.getPassport(), userAcc1);
+        vtb.addAccountToUser(user.getPassport(), userAcc2);
+        vtb.deleteAccountFromUser(user.getPassport(), userAcc2);
+        accounts.remove(userAcc2);
+        assertThat(vtb.getUserAccounts(user.getPassport()), is(accounts));
+    }
+
+    @Test
+    public void whenGetUserAccountsThenGiveAll() {
+        Bank vtb = new Bank();
+        User user = new User("Smirnov", "5504 116280");
+        vtb.addUser(user);
+        Account userAcc1 = new Account(145000D, "1001");
+        Account userAcc2 = new Account(20D, "1002");
+        List<Account> accounts = new ArrayList<>();
+        accounts.add(userAcc1);
+        accounts.add(userAcc2);
+        vtb.addAccountToUser(user.getPassport(), userAcc1);
+        vtb.addAccountToUser(user.getPassport(), userAcc2);
+        vtb.getUserAccounts(user.getPassport());
+        assertThat(vtb.getUserAccounts(user.getPassport()), is(accounts));
+    }
+
+    @Test
+    public void whenTransferMoneyThenDeltaAccounts() {
+
+    }
+
+
+
+
+
 
 }
