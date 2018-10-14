@@ -86,7 +86,7 @@ public class BankTest {
         vtb.addAccountToUser("5504 116280", userAcc1);
         vtb.addAccountToUser("1200 567019", userAcc2);
         //vtb.transferMoney("5504 116280","1001", "1200 567019", "1002", 100D);
-        assertThat(vtb.transferMoney("5504 116280","1001", "1200 567019", "1002", 144000D), is(true));
+        assertThat(vtb.transferMoney("5504 116280", "1001", "1200 567019", "1002", 144000D), is(true));
 
     }
 

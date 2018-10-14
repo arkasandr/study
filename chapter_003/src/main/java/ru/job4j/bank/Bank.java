@@ -80,7 +80,7 @@ public class Bank {
         /**
          * Метод переводит деньги с одного счета на другой, если счет не найден или не хватает денег , то возвращает false.
          */
-    public boolean transferMoney (String srcPassport, String srcRequisite, String destPassport, String destRequisite, double amount) {
+    public boolean transferMoney(String srcPassport, String srcRequisite, String destPassport, String destRequisite, double amount) {
         boolean result = true;
         List<Account> srcAccounts = bank.get(getUser(srcPassport));
         List<Account> destAccounts = bank.get(getUser(destPassport));
