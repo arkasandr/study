@@ -86,13 +86,22 @@ public class BankTest {
         vtb.addAccountToUser("5504 116280", userAcc1);
         vtb.addAccountToUser("1200 567019", userAcc2);
         //vtb.transferMoney("5504 116280","1001", "1200 567019", "1002", 100D);
-        assertThat(vtb.transferMoney("5504 116280", "1001", "1200 567019", "1002", 144000D), is(true));
-
+        assertThat(vtb.transferMoney("5504 116280", "1001", "1200 567019", "1003", 144000D), is(true));
     }
 
-
-
-
-
+    @Test
+    public void whenGetUserAccountThenGiveOne() {
+        Bank vtb = new Bank();
+        User user = new User("Smirnov", "5504 116280");
+        vtb.addUser(user);
+        Account userAcc1 = new Account(145000D, "1001");
+        Account userAcc2 = new Account(20D, "1002");
+        List<Account> accounts = new ArrayList<>();
+        accounts.add(userAcc1);
+        accounts.add(userAcc2);
+        vtb.addAccountToUser(user.getPassport(), userAcc1);
+        vtb.addAccountToUser(user.getPassport(), userAcc2);
+        assertThat(vtb.getUserAccount("5504 116280", "1001"), is(userAcc1));
+    }
 
 }

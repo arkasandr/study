@@ -31,7 +31,7 @@ public class Bank {
      */
     public void addAccountToUser(String passport, Account account) {
         for (HashMap.Entry<User, List<Account>> user : bank.entrySet()) {
-            if (user.getKey().getPassport().equals(passport)) {
+            if (user.getKey().getPassport().equals(passport) && !user.getValue().contains(account)) {
                 user.getValue().add(account);
             }
         }
@@ -76,32 +76,39 @@ public class Bank {
         return wanted;
     }
 
+    /**
+     * Метод получает счет пользователя по паспорту и реквизитам
+     */
+    public Account getUserAccount(String passport, String requisite) {
+        Account wantedAcc = new Account();
+        List<Account> accounts = this.getUserAccounts(passport);
+        for (Account acc : accounts
+        ) {
+            if (acc.getRequisites().equals(requisite)) {
+                wantedAcc = acc;
+            }
+        }
+            return wantedAcc;
+    }
+
 
         /**
          * Метод переводит деньги с одного счета на другой, если счет не найден или не хватает денег , то возвращает false.
          */
+
     public boolean transferMoney(String srcPassport, String srcRequisite, String destPassport, String destRequisite, double amount) {
         boolean result = true;
-        List<Account> srcAccounts = bank.get(getUser(srcPassport));
-        List<Account> destAccounts = bank.get(getUser(destPassport));
-        for (Account acc1 : srcAccounts
-        ) {
-            if (acc1.getRequisites().equals(srcRequisite) && acc1.getValue() >= amount) {
-                for (Account acc2 : destAccounts
-                ) {
-                    if (acc2.getRequisites().equals(destRequisite)) {
-                        acc2.setValue(acc2.getValue() + amount);
+        Account srcAccount = this.getUserAccount(srcPassport, srcRequisite);
+        Account destAccount = this.getUserAccount(destPassport, destRequisite);
+        if (srcAccount.getValue() >= amount) {
+            destAccount.setValue(destAccount.getValue() + amount);
                     } else {
-                        result = false;
-                    }
-                }
-
-            } else {
-                result = false;
-            }
+            result = false;
         }
+
         return result;
     }
+
 
     }
 
