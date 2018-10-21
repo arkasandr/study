@@ -80,15 +80,14 @@ public class Bank {
      * Метод получает счет пользователя по паспорту и реквизитам
      */
     public Account getUserAccount(String passport, String requisite) {
-        Account wantedAcc = new Account();
         List<Account> accounts = this.getUserAccounts(passport);
         for (Account acc : accounts
         ) {
             if (acc.getRequisites().equals(requisite)) {
-                wantedAcc = acc;
+                return acc;
             }
         }
-            return wantedAcc;
+            return null;
     }
 
 
@@ -100,15 +99,17 @@ public class Bank {
         boolean result = true;
         Account srcAccount = this.getUserAccount(srcPassport, srcRequisite);
         Account destAccount = this.getUserAccount(destPassport, destRequisite);
-        if (srcAccount.getValue() >= amount) {
-            destAccount.setValue(destAccount.getValue() + amount);
-                    } else {
-            result = false;
+        if (srcAccount != null && destAccount != null) {
+            if (srcAccount.getValue() >= amount) {
+                destAccount.setValue(destAccount.getValue() + amount);
+            } else {
+                result = false;
+            }
         }
 
-        return result;
-    }
+            return result;
 
+    }
 
     }
 
