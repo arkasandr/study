@@ -1,6 +1,10 @@
 package ru.job4j.tracker;
 
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.List;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -23,8 +27,7 @@ import static org.junit.Assert.assertThat;
             Item item2 = new Item("test2", "testDescription", 123L);
             tracker.add(item1);
             tracker.add(item2);
-            Item[] result = {item1, item2};
-            assertThat(tracker.findAll(), is(result));
+            assertThat(tracker.findAll().size(), is(2));
         }
 
         @Test
@@ -32,7 +35,7 @@ import static org.junit.Assert.assertThat;
             Tracker tracker = new Tracker();
             Item item = new Item("test1", "testDescription", 123L);
             tracker.add(item);
-            assertThat(tracker.findAll()[0], is(item));
+            assertThat(tracker.findAll(), is(Arrays.asList(item)));
         }
 
         @Test
@@ -42,7 +45,7 @@ import static org.junit.Assert.assertThat;
             Item item2 = new Item("test1", "testDescription", 123L);
             tracker.add(item1);
             tracker.add(item2);
-            Item[] result = {item1, item2};
+            List<Item> result = Arrays.asList(item1, item2);
             assertThat(tracker.findByName("test1"), is(result));
         }
 
@@ -56,7 +59,7 @@ import static org.junit.Assert.assertThat;
             tracker.add(deleted2);
             tracker.add(deleted3);
             tracker.delete(deleted2.getId());
-            Item[] result = {deleted1, deleted3, null};
+            List<Item> result = Arrays.asList(deleted1, deleted3);
             assertThat(tracker.findAll(), is(result));
         }
 

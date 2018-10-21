@@ -10,7 +10,9 @@ public class Tracker {
     /**
      * создаем массив для хранения заявок
      */
-    private Item[] items = new Item[100];
+    //private Item[] items = new Item[100];
+
+    private List<Item> items = new ArrayList<>();
     /**
      * указатель ячейки для новой заявки
      */
@@ -28,7 +30,7 @@ public class Tracker {
 
     public Item add(Item item) {
         item.setId(this.generateId());
-        this.items[this.position++] = item;
+        this.items.add(item);
         return item;
     }
 
@@ -64,10 +66,10 @@ public class Tracker {
      *
      * @return
      */
-    public Item[] findAll() {
-        Item[] result = new Item[this.position];
-        for (int index = 0; index != this.position; index++) {
-            result[index] = this.items[index];
+    public List<Item> findAll() {
+        List<Item> result = new ArrayList<>();
+        for(Item item:items) {
+            result.add(item);
         }
         return result;
     }
@@ -77,13 +79,11 @@ public class Tracker {
      *
      * @return
      */
-    public Item[] findByName(String key) {
-        int index = 0;
-        Item[] result = new Item[this.position];
-        for (Item item : items) {
-            if (item != null && items[index].getName().equals(key)) {
-                result[index] = item;
-                index++;
+    public List<Item> findByName(String key) {
+        List<Item> result = new ArrayList<>();
+        for (Item item:items) {
+            if (item != null && item.getName().equals(key)) {
+                result.add(item);
             }
         }
         return result;
@@ -95,9 +95,10 @@ public class Tracker {
      * @return
      */
     public void replace(String id, Item item) {
-        for (int index = 0; index < this.items.length; index++) {
-            if (this.items[index].getId().equals(id)) {
-                this.items[index] = item;
+        for (Item it:items) {
+            if (it.getId().equals(id)) {
+                items.remove(it);
+                items.add(item);
                 break;
             }
         }
@@ -109,9 +110,9 @@ public class Tracker {
      * @return
      */
     public void delete(String id) {
-        for (int index = 0; index < items.length; index++) {
-            if (items[index].getId().equals(id)) {
-                System.arraycopy(items, index + 1, items, index, items.length - index - 1);
+        for (Item item:items) {
+            if (item.getId().equals(id)) {
+                items.remove(item);
                 break;
             }
         }
