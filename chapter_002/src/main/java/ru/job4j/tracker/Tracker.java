@@ -10,13 +10,9 @@ public class Tracker {
     /**
      * создаем массив для хранения заявок
      */
-    //private Item[] items = new Item[100];
 
     private List<Item> items = new ArrayList<>();
-    /**
-     * указатель ячейки для новой заявки
-     */
-    private int position = 0;
+
     /**
      * поля уникального ключа
      */
@@ -68,7 +64,7 @@ public class Tracker {
      */
     public List<Item> findAll() {
         List<Item> result = new ArrayList<>();
-        for(Item item:items) {
+        for (Item item:items) {
             result.add(item);
         }
         return result;

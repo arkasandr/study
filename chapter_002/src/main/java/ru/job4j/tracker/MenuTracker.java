@@ -1,5 +1,8 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MenuTracker {
 
     /**
@@ -14,15 +17,15 @@ public class MenuTracker {
     /**
      * Массив содержит допустимые действия.
      */
-    private UserAction[] actions = new UserAction[7];
+    private List<UserAction> actions = new ArrayList<>();
 
 
     /**
-     * Метод формирует массив пунктоа меню.
+     * Метод формирует массив пунктов меню.
      */
     public int[] getActions() {
-       int[] range = new int[this.actions.length];
-        for (int i = 0; i < actions.length; i++) {
+        int[] range = new int[this.actions.size()];
+        for (int i = 0; i < actions.size(); i++) {
              range[i] = i;
        }
         return range;
@@ -58,10 +61,10 @@ public class MenuTracker {
             System.out.println("---------- Поиск заявки по имени  ----------");
             String name = input.ask("Введите имя заявки :");
             tracker.findByName(name);
-            for (int index = 0; index < tracker.findByName(name).length; index++) {
-                if (tracker.findByName(name)[index] != null) {
+            for (int index = 0; index < tracker.findByName(name).size(); index++) {
+                if (!tracker.findByName(name).equals(null)) {
                     System.out.println("------- Список найденных заявок с уникальным номером Id: ");
-                    System.out.println(tracker.findByName(name)[index].getId());
+                    System.out.println(tracker.findByName(name).get(index).getId());
                 }
             }
         }
@@ -78,13 +81,13 @@ public class MenuTracker {
      */
     public void fillActions() {
         System.out.println("Меню.");
-        this.actions[0] = this.new AddItem(0, "Добавить новую заявку.");
-        this.actions[1] = new MenuTracker.ShowItems(1, "Показать все заявки.");
-        this.actions[2] = new EditItem(2, "Редактировать заявку.");
-        this.actions[3] = new DeleteItem(3, "Удалить заявку.");
-        this.actions[4] = new MenuTracker.ShowItemById(4, "Найти заявку по id.");
-        this.actions[5] = new ShowItemByName(5, "Найти заявку по имени.");
-        this.actions[6] = new ExitTracker(6, "Выйти из программы.");
+        this.actions.add(new AddItem(0, "Добавить новую заявку."));
+        this.actions.add(new MenuTracker.ShowItems(1, "Показать все заявки."));
+        this.actions.add(new EditItem(2, "Редактировать заявку."));
+        this.actions.add(new DeleteItem(3, "Удалить заявку."));
+        this.actions.add(new MenuTracker.ShowItemById(4, "Найти заявку по id."));
+        this.actions.add(new ShowItemByName(5, "Найти заявку по имени."));
+        this.actions.add(new ExitTracker(6, "Выйти из программы."));
     }
 
 
@@ -92,7 +95,7 @@ public class MenuTracker {
      * Метод реализует выбранное событие.
      */
     public void select(int key) {
-        this.actions[key].execute(this.input, this.tracker);
+        this.actions.get(key).execute(this.input, this.tracker);
     }
 
     /**

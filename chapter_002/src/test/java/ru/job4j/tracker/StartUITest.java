@@ -5,6 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -33,7 +34,7 @@ public class StartUITest {
         Tracker tracker = new Tracker();     // создаём Tracker
         Input input = new StubInput(new String[]{"0", "test name", "desc", "1", "6"});   //создаём StubInput с последовательностью действий
         new StartUI(input, tracker).init();     //   создаём StartUI и вызываем метод init()
-        assertThat(tracker.findAll()[0].getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
+        assertThat(tracker.findAll().get(0).getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
     }
 
 
@@ -59,13 +60,13 @@ public class StartUITest {
         Item item1 = tracker.add(new Item());
         Item item2 = tracker.add(new Item());
         //присваиваем переменной result ожидаемый результат
-        Item[] result = {item2, null};
+        Item[] result = {item2};
         //создаём StubInput с последовательностью действий
         Input input = new StubInput(new String[]{"1", "3", item1.getId(), "6"});
         // создаём StartUI и вызываем метод init()
         new StartUI(input, tracker).init();
         // проверяем, что список заявок соответствует ожидаемому результату
-        assertThat(tracker.findAll(), is(result));
+        assertThat(tracker.findAll(), is(Arrays.asList(result)));
     }
 
 
