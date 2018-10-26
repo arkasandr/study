@@ -1,5 +1,6 @@
 package ru.job4j.tracker;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,14 +24,22 @@ public class MenuTracker {
     /**
      * Метод формирует массив пунктов меню.
      */
-    public int[] getActions() {
-        int[] range = new int[this.actions.size()];
-        for (int i = 0; i < actions.size(); i++) {
-             range[i] = i;
-       }
-        return range;
-   }
+//    public int[] getActions() {
+//        int[] range = new int[this.actions.size()];
+//        for (int i = 0; i < actions.size(); i++) {
+//            range[i] = i;
+//        }
+//        return range;
+//    }
 
+    public List<UserAction> getActions() {
+        List<UserAction> range = new ArrayList<>();
+        for (UserAction action:actions
+             ) {
+            range.add(action);
+        }
+        return range;
+    }
     /**
      * Класс реализует редактирование заявки.
      */
