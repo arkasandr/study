@@ -15,12 +15,9 @@ public class StubInput implements Input {
         return answers[position++];
     }
 
-    public int ask(String question, List<UserAction> range) {
+    public int ask(String question, List<Integer> range) {
         return Integer.parseInt(answers[position++]);
     }
 
-//    public int ask(String question, int[] range) {
-//        return Integer.parseInt(answers[position++]);
-//    }
 
 }

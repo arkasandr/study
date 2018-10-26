@@ -62,12 +62,9 @@ public class Tracker {
      *
      * @return
      */
+
     public List<Item> findAll() {
-        List<Item> result = new ArrayList<>();
-        for (Item item:items) {
-            result.add(item);
-        }
-        return result;
+        return items;
     }
 
     /**
@@ -105,6 +102,8 @@ public class Tracker {
      *
      * @return
      */
+
+
     public void delete(String id) {
         for (Item item:items) {
             if (item.getId().equals(id)) {

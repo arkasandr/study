@@ -32,11 +32,11 @@ public class MenuTracker {
 //        return range;
 //    }
 
-    public List<UserAction> getActions() {
-        List<UserAction> range = new ArrayList<>();
+    public List<Integer> getActions() {
+        List<Integer> range = new ArrayList<>();
         for (UserAction action:actions
              ) {
-            range.add(action);
+            range.add(action.key());
         }
         return range;
     }

@@ -32,9 +32,9 @@ public class ValidateInputTest {
         ValidateInput input = new ValidateInput(
                 new StubInput(new String[] {"invalid", "1"})
         );
-        List<UserAction> list = new ArrayList<>();
-        list.add(1,);
-        input.ask("Enter", new List<UserAction>() {1});
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        input.ask("Enter", list);
         assertThat(
                 this.mem.toString(),
                 is(

@@ -10,27 +10,11 @@ public class ConsoleInput implements Input {
         return scanner.nextLine();
     }
 
-
-//    public int ask(String question, int[] range) {
-//        int key = Integer.valueOf(this.ask(question));
-//        boolean exist = false;
-//        for (int value : range) {
-//            if (value == key) {
-//                exist = true;
-//                break;
-//            }
-//        }
-//        if (!exist) {
-//            throw new MenuOutException("Вне диапазона");
-//        }
-//            return key;
-//    }
-
-    public int ask(String question, List<UserAction> range) {
+    public int ask(String question, List<Integer> range) {
         int key = Integer.valueOf(this.ask(question));
         boolean exist = false;
-        for (UserAction action : range) {
-            if (action.key() == key) {
+        for (Integer value : range) {
+            if (value == key) {
                 exist = true;
                 break;
             }

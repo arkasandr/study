@@ -13,23 +13,7 @@ public class ValidateInput implements Input {
         return this.input.ask(question);
     }
 
-//    public int ask(String question, int[] range) {
-//        boolean invalid = true;
-//        int value = -1;
-//        do {
-//            try {
-//                value = this.input.ask(question, range);
-//                invalid = false;
-//            } catch (MenuOutException moe) {
-//                System.out.println("Пожалуйста, выберите пункт Меню.");
-//            } catch (NumberFormatException nfe) {
-//                System.out.println("Пожалуйста, введите верные данные.");
-//            }
-//        } while (invalid);
-//        return value;
-//    }
-
-    public int ask(String question, List<UserAction> range) {
+    public int ask(String question, List<Integer> range) {
         boolean invalid = true;
         int value = -1;
         do {
