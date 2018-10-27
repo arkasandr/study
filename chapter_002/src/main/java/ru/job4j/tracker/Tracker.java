@@ -101,8 +101,8 @@ public class Tracker {
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i) != null) {
                 if (items.get(i).getId().equals(id)) {
-                    items.remove(items.get(i));
-                    items.add(item);
+                    items.get(i).setName(item.getName());
+                    items.get(i).setDescription(item.getDescription());
                     break;
             }
         }
@@ -128,7 +128,7 @@ public class Tracker {
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i) != null) {
                 if (items.get(i).getId().equals(id)) {
-                    items.remove(items.get(i));
+                    items.remove(i);
                     break;
                 }
             }
