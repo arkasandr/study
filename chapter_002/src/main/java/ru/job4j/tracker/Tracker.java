@@ -87,16 +87,27 @@ public class Tracker {
      *
      * @return
      */
+//    public void replace(String id, Item item) {
+//        for (Item it:items) {
+//            if (it.getId().equals(id)) {
+//                items.remove(it);
+//                items.add(item);
+//                break;
+//            }
+//        }
+//    }
+
     public void replace(String id, Item item) {
-        for (Item it:items) {
-            if (it.getId().equals(id)) {
-                items.remove(it);
-                items.add(item);
-                break;
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i) != null) {
+                if (items.get(i).getId().equals(id)) {
+                    items.remove(items.get(i));
+                    items.add(item);
+                    break;
             }
         }
     }
-
+    }
     /**
      * метод удаляет заявку.
      *
@@ -104,11 +115,22 @@ public class Tracker {
      */
 
 
+//    public void delete(String id) {
+//        for (Item item:items) {
+//            if (item.getId().equals(id)) {
+//                items.remove(item);
+//                break;
+//            }
+//        }
+//    }
+
     public void delete(String id) {
-        for (Item item:items) {
-            if (item.getId().equals(id)) {
-                items.remove(item);
-                break;
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i) != null) {
+                if (items.get(i).getId().equals(id)) {
+                    items.remove(items.get(i));
+                    break;
+                }
             }
         }
     }
