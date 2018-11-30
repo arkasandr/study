@@ -3,6 +3,7 @@ package ru.job4j.tracker;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.*;
 
 public class MenuTracker {
 
@@ -111,11 +112,12 @@ public class MenuTracker {
      * Метод выводит на печать меню.
      */
     public void show() {
-        for (UserAction action : this.actions) {
-            if (action != null) {
-                System.out.println(action.info());
-            }
-        }
+        actions.forEach((UserAction action) -> System.out.println(action.info()));
+//        for (UserAction action : this.actions) {
+//            if (action != null) {
+//                System.out.println(action.info());
+//            }
+//        }
     }
 
     /**
