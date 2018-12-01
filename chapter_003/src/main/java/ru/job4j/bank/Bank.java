@@ -135,7 +135,7 @@ public class Bank {
         boolean result = true;
         Optional<User> srcUser = getUser(srcPassport);
         Optional<User> destUser = getUser(destPassport);
-        if(srcUser.isPresent() && destUser.isPresent()) {
+        if (srcUser.isPresent() && destUser.isPresent()) {
             Optional<Account> srcAccount = getUserAccount(srcPassport, srcRequisite);
             Optional<Account> destAccount = getUserAccount(destPassport, destRequisite);
             if (srcAccount.isPresent() && destAccount.isPresent() && (srcAccount.get().getValue() >= amount)) {
