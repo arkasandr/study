@@ -46,15 +46,25 @@ public class Tracker {
      * @param id уникальный ключ.
      * @return заявка.
      */
-    public Item findById(String id) {
-        Item result = null;
-        for (Item item : items) {
-            if (item != null && item.getId().equals(id)) {
-                result = item;
-                break;
+//    public Item findById(String id) {
+//        Item result = null;
+//        for (Item item : items) {
+//            if (item != null && item.getId().equals(id)) {
+//                result = item;
+//                break;
+//            }
+//        }
+//        return result;
+//    }
+
+    public  Item findById(String id) {
+        final Item[] item = {null};
+        this.items.forEach(i -> {
+            if (i != null && i.getId().equals(id)) {
+                item[0] = i;
             }
-        }
-        return result;
+        });
+        return item[0];
     }
 
     /**

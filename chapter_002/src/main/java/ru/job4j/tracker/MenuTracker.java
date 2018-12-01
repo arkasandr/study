@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.*;
+import java.util.function.Consumer;
 
 public class MenuTracker {
 
@@ -112,7 +113,10 @@ public class MenuTracker {
      * Метод выводит на печать меню.
      */
     public void show() {
-        actions.forEach((UserAction action) -> System.out.println(action.info()));
+        Consumer<UserAction> consumer = action -> System.out.println((action.info()));
+        actions.forEach(consumer);
+//        consumer.accept(actions);
+       // actions.forEach((UserAction action) -> System.out.println(action.info()));
 //        for (UserAction action : this.actions) {
 //            if (action != null) {
 //                System.out.println(action.info());
