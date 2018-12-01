@@ -71,11 +71,11 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             System.out.println("---------- Поиск заявки по имени  ----------");
             String name = input.ask("Введите имя заявки :");
-            tracker.findByName(name);
-            for (int index = 0; index < tracker.findByName(name).size(); index++) {
-                if (!tracker.findByName(name).equals(null)) {
+            tracker.findByName(result -> result.equals(name));
+            for (int index = 0; index < tracker.findByName(result -> result.equals(name)).size(); index++) {
+                if (!tracker.findByName(result -> result.equals(name)).equals(null)) {
                     System.out.println("------- Список найденных заявок с уникальным номером Id: ");
-                    System.out.println(tracker.findByName(name).get(index).getId());
+                    System.out.println(tracker.findByName(result -> result.equals(name)).get(index).getId());
                 }
             }
         }
@@ -184,8 +184,8 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             System.out.println("------ Поиск заявки по уникальному номеру Id ------");
             String id = input.ask("Введите Id заявки :");
-            tracker.findById(id);
-            System.out.println("------- Найдена заявка с именем: " + tracker.findById(id).getName());
+            tracker.findById(result -> result.equals(id));
+            System.out.println("------- Найдена заявка с именем: " + tracker.findById(result -> result.equals(id)).getName());
                 }
     }
 

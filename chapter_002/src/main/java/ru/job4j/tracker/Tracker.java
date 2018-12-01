@@ -1,5 +1,6 @@
 package ru.job4j.tracker;
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * @author Alex Arks (arkaleks@yandex.ru)
@@ -57,15 +58,26 @@ public class Tracker {
 //        return result;
 //    }
 
-    public  Item findById(String id) {
-        final Item[] item = {null};
-        this.items.forEach(i -> {
-            if (i != null && i.getId().equals(id)) {
-                item[0] = i;
+    public Item findById(Predicate<String> predicate) {
+        Item result = null;
+        for (Item item : items) {
+            if (item != null && predicate.test(item.getId())) {
+                result = item;
+                break;
             }
-        });
-        return item[0];
+        }
+        return result;
     }
+
+//    public  Item findById(String id) {
+//        final Item[] item = {null};
+//        this.items.forEach(i -> {
+//            if (i != null && i.getId().equals(id)) {
+//                item[0] = i;
+//            }
+//        });
+//        return item[0];
+//    }
 
     /**
      * метод возвращает весь список заявок
@@ -82,16 +94,25 @@ public class Tracker {
      *
      * @return
      */
-    public List<Item> findByName(String key) {
+//    public List<Item> findByName(String key) {
+//        List<Item> result = new ArrayList<>();
+//        for (Item item:items) {
+//            if (item != null && item.getName().equals(key)) {
+//                result.add(item);
+//            }
+//        }
+//        return result;
+//    }
+
+    public List<Item> findByName(Predicate<String> predicate) {
         List<Item> result = new ArrayList<>();
         for (Item item:items) {
-            if (item != null && item.getName().equals(key)) {
+            if (item != null && predicate.test(item.getName())) {
                 result.add(item);
             }
         }
         return result;
     }
-
     /**
      * метод заменяет заявку.
      *

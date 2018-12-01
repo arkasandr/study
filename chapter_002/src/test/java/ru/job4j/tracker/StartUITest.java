@@ -49,7 +49,7 @@ public class StartUITest {
         // создаём StartUI и вызываем метод init()
         new StartUI(input, tracker).init();
         // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
-        assertThat(tracker.findById(item.getId()).getName(), is("test name"));
+        assertThat(tracker.findById(id -> id.equals(id)).getName(), is("test name"));
     }
 
     @Test

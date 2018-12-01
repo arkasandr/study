@@ -17,7 +17,7 @@ import static org.junit.Assert.assertThat;
             Item item = new Item("test1", "testDescription", 123L);
             tracker.add(item);
             item.setId("123");
-            assertThat(tracker.findById(item.getId()).getName(), is("test1"));
+            assertThat(tracker.findById(id -> id.equals(id)).getName(), is("test1"));
         }
 
         @Test
@@ -46,7 +46,7 @@ import static org.junit.Assert.assertThat;
             tracker.add(item1);
             tracker.add(item2);
             List<Item> result = Arrays.asList(item1, item2);
-            assertThat(tracker.findByName("test1"), is(result));
+            assertThat(tracker.findByName(name -> name.equals("test1")), is(result));
         }
 
         @Test
@@ -71,7 +71,7 @@ import static org.junit.Assert.assertThat;
             Item next = new Item("test2", "testDescription2", 1234L);
             next.setId(previous.getId());
             tracker.replace(previous.getId(), next);
-            assertThat(tracker.findById(previous.getId()).getName(), is("test2"));
+            assertThat(tracker.findById(id -> id.equals(id)).getName(), is("test2"));
         }
     }
 
