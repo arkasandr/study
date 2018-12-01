@@ -1,9 +1,6 @@
 package ru.job4j.search;
 
         import org.junit.Test;
-        import ru.job4j.search.Person;
-        import ru.job4j.search.PhoneDictionary;
-
         import java.util.List;
 
         import static org.hamcrest.core.Is.is;
@@ -17,6 +14,7 @@ public class PhoneDictionaryTest {
                 new Person("Petr", "Arsentev", "534872", "Bryansk")
         );
         List<Person> persons = phones.find("Petr");
-        assertThat(persons.iterator().next().getSurname(), is("Arsentev"));
+       assertThat(persons.iterator().next().getSurname(), is("Arsentev"));
+
     }
 }

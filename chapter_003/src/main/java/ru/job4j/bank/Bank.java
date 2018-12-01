@@ -113,42 +113,42 @@ public class Bank {
 //            return null;
 //    }
 
-//    public Optional<Account> getUserAccount(String passport, String requisite) {
-//        return bank.get(getUser(passport)).stream()
-//                .filter(account -> requisite.equals(account.getRequisites()))
-//                .findFirst();
-//    }
-
-
-
-    public Optional<Account> getUserAccount(User user, String requisite) {
-        return bank.get(user).stream()
+    public Optional<Account> getUserAccount(String passport, String requisite) {
+        return getUserAccounts(passport).stream()
                 .filter(account -> requisite.equals(account.getRequisites()))
                 .findFirst();
     }
+
+
+
+//    public Optional<Account> getUserAccount(User user, String requisite) {
+//        return bank.get(user).stream()
+//                .filter(account -> requisite.equals(account.getRequisites()))
+//                .findFirst();
+//    }
 
         /**
          * Метод переводит деньги с одного счета на другой, если счет не найден или не хватает денег , то возвращает false.
          */
 
-//    public boolean transferMoney(String srcPassport, String srcRequisite, String destPassport, String destRequisite, double amount) {
-//        boolean result = true;
-//        Optional<User> srcUser = getUser(srcPassport);
-//        Optional<User> destUser = getUser(destPassport);
-//        if(srcUser.isPresent() && destUser.isPresent()) {
-//            Optional<Account> srcAccount = getUserAccount(srcPassport, srcRequisite);
-//            Optional<Account> destAccount = getUserAccount(destPassport, destRequisite);
-//            if (srcAccount.isPresent() && destAccount.isPresent() && (srcAccount.get().getValue() >= amount)) {
-//                srcAccount.get().setValue(srcAccount.get().getValue() - amount);
-//                destAccount.get().setValue(destAccount.get().getValue() + amount);
-//            } else {
-//                result = false;
-//            }
-//        }
-//
-//            return result;
-//
-//    }
+    public boolean transferMoney(String srcPassport, String srcRequisite, String destPassport, String destRequisite, double amount) {
+        boolean result = true;
+        Optional<User> srcUser = getUser(srcPassport);
+        Optional<User> destUser = getUser(destPassport);
+        if(srcUser.isPresent() && destUser.isPresent()) {
+            Optional<Account> srcAccount = getUserAccount(srcPassport, srcRequisite);
+            Optional<Account> destAccount = getUserAccount(destPassport, destRequisite);
+            if (srcAccount.isPresent() && destAccount.isPresent() && (srcAccount.get().getValue() >= amount)) {
+                srcAccount.get().setValue(srcAccount.get().getValue() - amount);
+                destAccount.get().setValue(destAccount.get().getValue() + amount);
+            } else {
+                result = false;
+            }
+        }
+
+            return result;
+
+    }
 
     }
 

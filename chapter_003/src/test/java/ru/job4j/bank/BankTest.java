@@ -77,18 +77,17 @@ public class BankTest {
         assertThat(vtb.getUserAccounts(user.getPassport()), is(accounts));
     }
 
-//    @Test
-//    public void whenTransferMoneyThenDeltaAccounts() {
-//        Bank vtb = new Bank();
-//        vtb.addUser(new User("Smirnov", "5504 116280"));
-//        vtb.addUser(new User("Petrov", "1200 567019"));
-//        Account userAcc1 = new Account(145000D, "1001");
-//        Account userAcc2 = new Account(20D, "1002");
-//        vtb.addAccountToUser("5504 116280", userAcc1);
-//        vtb.addAccountToUser("1200 567019", userAcc2);
-//        //vtb.transferMoney("5504 116280","1001", "1200 567019", "1002", 100D);
-//        assertThat(vtb.transferMoney("5504 116280", "1001", "1200 567019", "1003", 144000D), is(true));
-//    }
+    @Test
+    public void whenTransferMoneyThenDeltaAccounts() {
+        Bank vtb = new Bank();
+        vtb.addUser(new User("Smirnov", "5504 116280"));
+        vtb.addUser(new User("Petrov", "1200 567019"));
+        Account userAcc1 = new Account(145000D, "1001");
+        Account userAcc2 = new Account(20D, "1002");
+        vtb.addAccountToUser("5504 116280", userAcc1);
+        vtb.addAccountToUser("1200 567019", userAcc2);
+        assertThat(vtb.transferMoney("5504 116280", "1001", "1200 567019", "1002", 144000D), is(true));
+    }
 
     @Test
     public void whenGetUserAccountThenGiveOne() {
@@ -97,12 +96,9 @@ public class BankTest {
         vtb.addUser(user);
         Account userAcc1 = new Account(145000D, "1001");
         Account userAcc2 = new Account(20D, "1002");
-//        List<Account> accounts = new ArrayList<>();
-//        accounts.add(userAcc1);
-//        accounts.add(userAcc2);
         vtb.addAccountToUser(user.getPassport(), userAcc1);
         vtb.addAccountToUser(user.getPassport(), userAcc2);
-        assertThat(vtb.getUserAccount(user, "1001"), is(userAcc1));
+        assertThat(vtb.getUserAccount("5504 116280", "1001").get(), is(userAcc1));
     }
 
 }
