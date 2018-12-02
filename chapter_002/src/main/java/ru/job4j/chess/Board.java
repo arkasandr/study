@@ -1,5 +1,7 @@
 package ru.job4j.chess;
 import java.util.Arrays;
+import java.util.function.Predicate;
+
 /**
  * @author Alex Arks (arkaleks@yandex.ru)
  * @version $Id$
@@ -42,10 +44,24 @@ public class Board {
     /**
      * метод проверяет, есть ли фигура в клетке source
      */
+//    public boolean checkCell(Cell source) throws FigureNotFoundException {
+//        boolean result = false;
+//        for (Figure figure : figures) {
+//            if (figure != null && figure.position.getX() == source.getX() && figure.position.getY() == source.getY()) {
+////                break;
+////            } else {
+//                throw new FigureNotFoundException("Клетка пуста! Выберите фигуру!");
+//            }
+//        }
+//        return result;
+//    }
+
+
     public boolean checkCell(Cell source) throws FigureNotFoundException {
         boolean result = false;
+        Predicate<Figure> predicate = figure -> figure!= null && figure.position().equals(source);
         for (Figure figure : figures) {
-            if (figure != null && figure.position.getX() == source.getX() && figure.position.getY() == source.getY()) {
+            if (predicate.test(figure)) {
                 break;
             } else {
                 throw new FigureNotFoundException("Клетка пуста! Выберите фигуру!");
@@ -53,4 +69,5 @@ public class Board {
         }
         return result;
     }
+
 }
