@@ -59,7 +59,7 @@ public class Board {
 
     public boolean checkCell(Cell source) throws FigureNotFoundException {
         boolean result = false;
-        Predicate<Figure> predicate = figure -> figure!= null && figure.position().equals(source);
+        Predicate<Figure> predicate = figure -> figure != null && figure.position().equals(source);
         for (Figure figure : figures) {
             if (predicate.test(figure)) {
                 break;
