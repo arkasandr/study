@@ -14,25 +14,25 @@ public class PriorityQueue {
      * @param task задача
      */
 
-//    public void put(Task task) {
-//      int count;
-//        int temp = tasks.size();
-//           for (count = 0; count <= tasks.size() - 1; count++) {
-//            if (task.getPriority() < tasks.get(count).getPriority()) {
-//                temp = count;
-//                break;
-//           }
-//            }
-//        tasks.add(temp, task);
-//        }
-
-
     public void put(Task task) {
-        tasks.add(task);
-        tasks = tasks.stream().sorted(Comparator.comparingInt(Task::getPriority))
-                .collect(Collectors.toCollection(LinkedList ::new));
 
-    }
+        var temp = tasks.size();
+           for (var count = 0; count <= tasks.size() - 1; count++) {
+            if (task.getPriority() < tasks.get(count).getPriority()) {
+                temp = count;
+                break;
+           }
+            }
+        tasks.add(temp, task);
+        }
+
+
+//    public void put(Task task) {
+//        tasks.add(task);
+//        tasks = tasks.stream().sorted(Comparator.comparingInt(Task::getPriority))
+//                .collect(Collectors.toCollection(LinkedList ::new));
+
+//    }
     public Task take() {
         return this.tasks.poll();
     }
