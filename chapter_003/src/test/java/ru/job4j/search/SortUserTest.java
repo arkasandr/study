@@ -12,11 +12,18 @@ public class SortUserTest {
 
     @Test
     public void sortUsersByAge() {
-        List<User> input = new ArrayList<>();
-        input.add(new User("Tom", 7));
-        input.add(new User("Jane", 6));
-        input.add(new User("Albert", 4));
-        input.add(new User("Jane", 17));
+//        List<User> input = new ArrayList<>();
+//        input.add(new User("Tom", 7));
+//        input.add(new User("Jane", 6));
+//        input.add(new User("Albert", 4));
+//        input.add(new User("Jane", 17));
+
+        List<User> input = List.of(
+                new User("Tom", 7),
+                new User("Jane", 6),
+                new User("Albert", 4),
+                new User("Jane", 17)
+        );
         SortUser c = new SortUser();
 
     List<Integer> result = new ArrayList<>();
@@ -39,6 +46,14 @@ public class SortUserTest {
         input.add(new User("Albert", 4));
         input.add(new User("Jane", 17));
         input.add(new User("Bob", 10));
+//
+//        List<User> input = List.of(
+//                new User("Tom", 7),
+//                new User("Jane", 6),
+//                new User("Albert", 4),
+//                new User("Jane", 17),
+//                new User("Bob", 10)
+//        );
         SortUser d = new SortUser();
 
         List<String> result = new ArrayList<>();
@@ -60,6 +75,14 @@ public class SortUserTest {
         input.add(new User("Albert", 4));
         input.add(new User("Jane", 17));
         input.add(new User("Bob", 10));
+//        List<User> input = List.of(
+//                new User("Tom", 7),
+//                new User("Jane", 6),
+//                new User("Albert", 4),
+//                new User("Jane", 17)
+//        );
+
+
         SortUser b = new SortUser();
 
         List<String> result = new ArrayList<>();
