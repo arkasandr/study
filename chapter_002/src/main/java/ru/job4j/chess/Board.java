@@ -76,7 +76,7 @@ public class Board {
         boolean result = false;
         Predicate<Figure> predicate = figure -> figure != null && figure.position().equals(source);
         Arrays.stream(figures)
-                .filter( fig -> predicate.test(fig)).findFirst().orElseThrow(() -> new FigureNotFoundException("Клетка пуста! Выберите фигуру!"));
+                .filter(fig -> predicate.test(fig)).findFirst().orElseThrow(() -> new FigureNotFoundException("Клетка пуста! Выберите фигуру!"));
 
 
         return result;
