@@ -1,5 +1,6 @@
 package ru.job4j.chess;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 /**
@@ -48,8 +49,8 @@ public class Board {
 //        boolean result = false;
 //        for (Figure figure : figures) {
 //            if (figure != null && figure.position.getX() == source.getX() && figure.position.getY() == source.getY()) {
-////                break;
-////            } else {
+//                break;
+//            } else {
 //                throw new FigureNotFoundException("Клетка пуста! Выберите фигуру!");
 //            }
 //        }
@@ -57,16 +58,27 @@ public class Board {
 //    }
 
 
+//    public boolean checkCell(Cell source) throws FigureNotFoundException {
+//        boolean result = false;
+//        Predicate<Figure> predicate = figure -> figure != null && figure.position().equals(source);
+//        for (Figure figure : figures) {
+//            if (predicate.test(figure)) {
+//                break;
+//
+//            } else {
+//                throw new FigureNotFoundException("Клетка пуста! Выберите фигуру!");
+//            }
+//        }
+//        return result;
+//    }
+
     public boolean checkCell(Cell source) throws FigureNotFoundException {
         boolean result = false;
         Predicate<Figure> predicate = figure -> figure != null && figure.position().equals(source);
-        for (Figure figure : figures) {
-            if (predicate.test(figure)) {
-                break;
-            } else {
-                throw new FigureNotFoundException("Клетка пуста! Выберите фигуру!");
-            }
-        }
+        Arrays.stream(figures)
+                .filter( fig -> predicate.test(fig)).findFirst().orElseThrow(() -> new FigureNotFoundException("Клетка пуста! Выберите фигуру!"));
+
+
         return result;
     }
 
