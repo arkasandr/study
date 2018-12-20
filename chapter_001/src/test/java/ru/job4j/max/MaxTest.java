@@ -16,4 +16,11 @@ public void whenFirstLessSecond() {
     int result = maxim.max(1, 2);
     assertThat(result, is(2));
 }
+
+    @Test
+    public void whenFirstLessSecondLessThird() {
+        Max maxim = new Max();
+        int result = maxim.max2(1, 5, 3);
+        assertThat(result, is(5));
+    }
 }

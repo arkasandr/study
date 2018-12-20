@@ -6,7 +6,19 @@ package ru.job4j.max;
  * @since 0.1
  */
  public class Max {
+	/**
+	 * метод выбирает максимальное из двух чисел
+	 */
 	 public int max(int first, int second) {
 		return first > second ? first : second;
 	 }
+
+	/**
+	 * метод выбирает максимальное из трех чисел
+	 */
+	public int max2(int first, int second, int third) {
+		int temp = this.max(first, second);
+		temp = this.max(temp, third);
+		return temp;
+	}
  }

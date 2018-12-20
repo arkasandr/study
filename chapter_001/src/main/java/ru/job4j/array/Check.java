@@ -6,7 +6,7 @@ public class Check {
         boolean prime = data[0];
         for (boolean b:data
              ) {
-            if(b != prime) {
+            if (b != prime) {
                 result = false;
                 break;
             }
