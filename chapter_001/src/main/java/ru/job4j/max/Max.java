@@ -17,8 +17,7 @@ package ru.job4j.max;
 	 * метод выбирает максимальное из трех чисел
 	 */
 	public int max2(int first, int second, int third) {
-		int temp = this.max(first, second);
-		temp = this.max(temp, third);
+		int temp = this.max((this.max(first, second)), third);
 		return temp;
 	}
  }
