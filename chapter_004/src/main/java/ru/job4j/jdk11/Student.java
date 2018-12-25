@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Student implements Comparator<Student>{
+public class Student implements Comparator<Student> {
 
     private String name;
     private int scope;
@@ -28,7 +28,8 @@ public class Student implements Comparator<Student>{
     }
 
     @Override
-    public int compare(Student s1, Student s2) {return s1.getScope() - s2.getScope();
+    public int compare(Student s1, Student s2) {
+        return s1.getScope() - s2.getScope();
     }
 
     public List<Student> levelOf(List<Student> students, int bound) {
@@ -38,7 +39,7 @@ public class Student implements Comparator<Student>{
                 //.ofNullable()
                 //.flatMap(key -> Stream.ofNullable(System.getProperty(key.getName())))
                .flatMap(Stream::ofNullable)
-                .dropWhile(x -> x.getScope()< bound)
+                .dropWhile(x -> x.getScope() < bound)
                 .collect(Collectors.toList());
     }
 }
