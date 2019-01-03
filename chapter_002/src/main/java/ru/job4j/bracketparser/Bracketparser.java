@@ -2,7 +2,17 @@ package ru.job4j.bracketparser;
 
 import java.util.*;
 
+/**
+ * @author Alex Arks (arkaleks@yandex.ru)
+ * @version $Id$
+ * @since 0.1
+ */
+
 public class Bracketparser {
+
+    /**
+     * Отображение содержит искомые наборы символов
+     */
     private static Map<Character, Character> brackets = new HashMap<>();
 
     static {
@@ -11,60 +21,42 @@ public class Bracketparser {
         brackets.put('[', ']');
     }
 
-    private static Stack<Character> stack = new Stack<>();
+    /**
+     * Вспомогательный список
+     */
+    private static LinkedList<Character> linkedList = new LinkedList<>();
 
-//    public boolean parseBrackets(String input) {
-//        boolean result = true;
-//        if (input.length() == 0) {
-//            result = false;
-//        } else if (input.length() % 2 != 0) {
-//            System.out.println("Нечетное количество скобок!");
-//            result = false;
-//        }
-//        for (var i = 0; i < input.length(); i++) {
-//            char[] charArray = input.toCharArray();
-//            if (brackets.containsKey(charArray[i])) {
-//                stack.push(charArray[i]);
-//            } else if (stack.empty() || charArray[i] != brackets.get(stack.pop())) {
-//                result = false;
-//            }
-//        }
-//        return result;
-//    }
-//}
-
-
+    /**
+     * Метод реализует поиск и выборку символов, указанных в brackets
+     */
     public Character[] findBrackets(String input) {
-        List<Character> charArray2 = new ArrayList<>();
+        List<Character> onlyBrackets = new ArrayList<>();
         for (int k = 0; k < input.length(); k++) {
             char[] charArray1 = input.toCharArray();
-            if (charArray1[k] == '(' || charArray1[k] == ')' || charArray1[k] == '{' || charArray1[k] == '}' || charArray1[k] == '[' || charArray1[k] == ']') {
-                charArray2.add(charArray1[k]);
+            if (charArray1[k] == '(' || charArray1[k] == ')' || charArray1[k] == '{' || charArray1[k] == '}'
+                    || charArray1[k] == '[' || charArray1[k] == ']') {
+                onlyBrackets.add(charArray1[k]);
             }
         }
-        if (charArray2.toArray(new Character[charArray2.size()]).length % 2 != 0) {
-            String warning = "Odd!";
-            System.out.println(warning);
-            char[] warn = warning.toCharArray();
-            Character[] warns = new Character[warn.length];
-            return warns;
-        } else {
-            return charArray2.toArray(new Character[charArray2.size()]);
-        }
+        return onlyBrackets.toArray(new Character[onlyBrackets.size()]);
     }
 
-
-        public boolean parseBrackets(String input2) {
+    /**
+     * Метод проверяет строку из выбранных скобок на валидность
+     */
+        public boolean parseBrackets(String input) {
         boolean result = true;
-        if (input2.length() == 0) {
+        if (input.length() == 0) {
             result = false;
         }
-        Character[] charArray = findBrackets(input2);
-        for (var i = 0; i < charArray.length; i++) {
-  //          char[] charArray = input3.toCharArray();
-            if (brackets.containsKey(charArray[i])) {
-                stack.push(charArray[i]);
-            } else if (stack.empty() || charArray[i] != brackets.get(stack.pop())) {
+        Character[] brackets = findBrackets(input);
+            if (brackets.length % 2 != 0) {
+                result = false;
+            }
+        for (var i = 0; i < brackets.length; i++) {
+            if (Bracketparser.brackets.containsKey(brackets[i])) {
+                linkedList.push(brackets[i]);
+            } else if (linkedList.isEmpty() || brackets[i] != Bracketparser.brackets.get(linkedList.pop())) {
                 result = false;
             }
         }
