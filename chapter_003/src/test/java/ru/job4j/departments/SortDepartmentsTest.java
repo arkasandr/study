@@ -1,6 +1,9 @@
 package ru.job4j.departments;
 
 import org.junit.Test;
+
+import java.util.Comparator;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -31,10 +34,18 @@ public class SortDepartmentsTest {
     }
 
     @Test
-    public void whenDownSort() {
+    public void whenDownSortOne() {
         SortDepartments forthSet = new SortDepartments();
         String[] input = {"K1", "K1\\SK1", "K2\\SK1"};
-        String[] result = {"K2\\SK1", "K2", "K1\\SK1", "K1"};
+        String[] result = {"K2", "K2\\SK1", "K1", "K1\\SK1"};
         assertThat(forthSet.sortDownDeps(input).toArray(), is(result));
+    }
+
+    @Test
+    public void whenDownSortTwo() {
+        SortDepartments fifthSet = new SortDepartments();
+        String[] input = {"K1\\SK1", "K1\\SK2", "K1\\SK1\\SSK1", "K1\\SK1\\SSK2", "K2", "K2\\SK1\\SSK1", "K2\\SK1\\SSK2"};
+        String[] result = {"K2", "K2\\SK1", "K2\\SK1\\SSK2", "K2\\SK1\\SSK1", "K1", "K1\\SK2", "K1\\SK1", "K1\\SK1\\SSK2", "K1\\SK1\\SSK1"};
+        assertThat(fifthSet.sortDownDeps(input).toArray(), is(result));
     }
 }

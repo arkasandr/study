@@ -10,10 +10,11 @@ import java.util.*;
  */
 
 public class SortDepartments {
+
     /**
      * Метод реализует поиск недостающих департментов
      */
-    public Set<String> findAllDeps(String[] str) {
+    public static Set<String> findAllDeps(String[] str) {
         Set<String> depart = new TreeSet<>();
         List<String> strings = Arrays.asList(str);
         for (String s:strings) {
@@ -31,25 +32,64 @@ public class SortDepartments {
     }
 
     /**
+     * Класс реализует компаратор по возрастанию
+     */
+    static class UpComparator implements Comparator<String> {
+
+        @Override
+        public int compare(String o1, String o2) {
+            int indexDep = o1.compareTo(o2);
+            int lengthDep = Integer.compare(o1.length(), o2.length());
+
+            return indexDep != 0 ? indexDep : lengthDep;
+        }
+    }
+
+    /**
+     * Класс реализует компаратор по убыванию
+     */
+    static class DownComparator implements Comparator<String> {
+
+        @Override
+        public int compare(String o1, String o2) {
+            int result = Integer.compare(o1.length(), o2.length());
+            int minLength = o1.length() > o2.length() ? o2.length() : o1.length();
+            for (int i = 0; i < minLength; i++) {
+                int temp = Character.compare(o2.charAt(i), o1.charAt(i));
+                if (temp != 0) {
+                    result = temp;
+                    break;
+                }
+            }
+            return result;
+        }
+    }
+
+
+    /**
      * Метод реализует сортировку департментов по возрастанию
      */
-    public Set<String> sortUpDeps(String[] str) {
-        Set<String> division = new TreeSet<>(Arrays.asList(str));
-        for (String s:findAllDeps(str)) {
-            division.add(s);
+        public List<String> sortUpDeps(String[] str) {
+            List<String> division = new ArrayList<>(Arrays.asList(str));
+            for (String s:findAllDeps(str)) {
+                division.add(s);
+            }
+            division.sort(new UpComparator());
+            return division;
         }
-        return division;
-    }
+
 
     /**
      * Метод реализует сортировку департментов по убыванию
      */
-    public Set<String> sortDownDeps(String[] str) {
-        Set<String> division = new TreeSet<>(Arrays.asList(str));
+        public List<String> sortDownDeps(String[] str) {
+
+        List<String> division = new ArrayList<>(Arrays.asList(str));
         for (String s:findAllDeps(str)
         ) {
             division.add(s);
         }
-        return ((TreeSet<String>) division).descendingSet();
+            division.sort(new DownComparator());
+            return division;
     }
 }
