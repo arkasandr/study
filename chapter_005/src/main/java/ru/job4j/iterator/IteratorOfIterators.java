@@ -1,6 +1,7 @@
 package ru.job4j.iterator;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class IteratorOfIterators {
 
@@ -18,10 +19,11 @@ public class IteratorOfIterators {
 
                 @Override
                 public Integer next() {
-                    Integer result = 0;
-                    changeIterator();
+                    if (!hasNext()) {
+                        throw new NoSuchElementException();
+                    }
+                    Integer result;
                     result = iterator.next();
-                    changeIterator();
                     return result;
                 }
 
