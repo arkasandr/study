@@ -25,7 +25,7 @@ public class SimpleArray<T> implements Iterable<T> {
 
             @Override
             public boolean hasNext() {
-                return index < array.length;
+                return index != array.length;
             }
 
             @Override
@@ -64,13 +64,11 @@ public class SimpleArray<T> implements Iterable<T> {
      * на единицу влево (в середине массива не должно быть пустых ячеек);
      */
     public void remove(int index) {
-        if (index == array.length) {
+        if (index >= array.length) {
             throw new IndexOutOfBoundsException();
         }
         array[index] = null;
-        for (int i = index; i < array.length - 1; i++) {
-            array[i] = array[i + 1];
-        }
+        System.arraycopy(array, index+1, array, index, array.length - index  - 1);
     }
 
     /**
