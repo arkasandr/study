@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
 public class SimpleArray<T> implements Iterable<T> {
 
     private final Object[] array;
-    private int index = 0;
+    private int size = 0;
 
     public SimpleArray(int length) {
         this.array = new Object[length];
@@ -21,11 +21,11 @@ public class SimpleArray<T> implements Iterable<T> {
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
-            private int index = 0;
+            private int position = 0;
 
             @Override
             public boolean hasNext() {
-                return index != array.length;
+                return this.position < array.length;
             }
 
             @Override
@@ -33,7 +33,7 @@ public class SimpleArray<T> implements Iterable<T> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return (T) array[index++];
+                return (T) array[position++];
             }
         };
     }
@@ -52,10 +52,10 @@ public class SimpleArray<T> implements Iterable<T> {
      * Метод добавляет указанный элемент (model) в первую свободную ячейку;
      */
     public T add(T model) {
-        if (this.index == array.length) {
+        if (size == array.length) {
             throw new IndexOutOfBoundsException();
         }
-        array[this.index++] = model;
+        array[size++] = model;
         return model;
     }
 
@@ -64,17 +64,26 @@ public class SimpleArray<T> implements Iterable<T> {
      * на единицу влево (в середине массива не должно быть пустых ячеек);
      */
     public void remove(int index) {
-        if (index >= array.length) {
+        if (index >= size) {
             throw new IndexOutOfBoundsException();
         }
         array[index] = null;
-        System.arraycopy(array, index+1, array, index, array.length - index  - 1);
+        System.arraycopy(array, index + 1, array, index, size - index  - 1);
     }
 
     /**
      * Метод возвращает элемент, расположенный по указанному индексу;
      */
     public T get(int index) {
-       return (T) array[index];
+
+        return (T) array[index];
+    }
+
+    /**
+     * Метод возвращает размер массива;
+     */
+
+    public int getSize() {
+        return size;
     }
 }
