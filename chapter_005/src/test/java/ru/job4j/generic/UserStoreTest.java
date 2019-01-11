@@ -18,13 +18,12 @@ public class UserStoreTest {
         assertThat(result.getId(), is("7"));
     }
 
-//    @Test
-//    public void whenDeleteUser() {
-//        store.add(user);
-//        store.delete(0);
-//
-//        assertNull(store.get(0));
-//    }
+    @Test
+    public void whenDeleteUser() {
+        store.add(user);
+        store.delete("7");
+        assertNull(store.get(0));
+    }
 
     @Test
     public void whenReplaceUser() {
@@ -35,6 +34,12 @@ public class UserStoreTest {
         assertThat(result.getId(), is("5"));
     }
 
+    @Test
+    public void whenFindByIdUser() {
+        store.add(user);
+        User result = store.findById("7");
+        assertThat(result.getId(), is("7"));
+    }
 
 
 }

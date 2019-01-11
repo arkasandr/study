@@ -1,10 +1,7 @@
 package ru.job4j.generic;
 
-import java.util.Iterator;
-
 public class UserStore<User extends Base> implements Store<User>  {
    private SimpleArray<User> users;
-   private int size;
 
     public UserStore(int size) {
         users = new SimpleArray<>(size);
@@ -17,51 +14,41 @@ public class UserStore<User extends Base> implements Store<User>  {
 
     @Override
     public boolean replace(String id, User model) {
+        boolean result = false;
         for (int i = 0; i < users.getSize(); i++) {
-            if (users.get(i) != null) {
-                if (users.get(i).getId().equals(id)) {
+                if (users.get(i) != null && users.get(i).getId().equals(id)) {
                     users.set(i, model);
-                    return true;
+                    result = true;
+                    break;
                 }
             }
-        }
-        return false;
+        return result;
     }
 
 
-
-//    public void delete(String id) {
-//        for (int i = 0; i < users.; i++) {
-//            if (items.get(i) != null) {
-//                if (items.get(i).getId().equals(id)) {
-//                    items.remove(i);
-//                    break;
-//                }
-//            }
-//        }
-
-//    @Override
-//    public boolean replace(String id, User model) {
-//        boolean rst = false;
-//        Iterator<User> it = users.iterator();
-//        for (int i = 0; it.hasNext(); i++) {
-//            if (id.equals(it.next().getId())) {
-//                users.set(i, model);
-//                rst = true;
-//                break;
-//            }
-//        }
-//        return rst;
-//    }
-
     @Override
     public boolean delete(String id) {
-        return false;
+        boolean result = false;
+        for (int i = 0; i < users.getSize(); i++) {
+                if (users.get(i) != null && users.get(i).getId().equals(id)) {
+                    users.remove(i);
+                    result = true;
+                    break;
+                }
+        }
+        return result;
     }
 
     @Override
     public User findById(String id) {
-        return null;
+        User result = null;
+        for (int i = 0; i < users.getSize(); i++) {
+                if (users.get(i) != null && users.get(i).getId().equals(id)) {
+                    result = users.get(i);
+                    break;
+                }
+            }
+        return result;
     }
 
 
