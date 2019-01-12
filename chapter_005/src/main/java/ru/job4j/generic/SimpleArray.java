@@ -42,7 +42,7 @@ public class SimpleArray<T> implements Iterable<T> {
      * Метод заменяет указанным элементом (model) элемент, находящийся по индексу index;
      */
     public void set(int index, T model) {
-        if (!(index < array.length)) {
+        if (!(index < size)) {
             throw new IndexOutOfBoundsException();
         }
         array[index] = model;

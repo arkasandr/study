@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 
 public class RoleStoreTest {
 
-        private RoleStore<Role> store = new RoleStore(1);
+        private AbstractStore<Role> store = new RoleStore(1);
         private Role role = new Role("7");
 
         @Test

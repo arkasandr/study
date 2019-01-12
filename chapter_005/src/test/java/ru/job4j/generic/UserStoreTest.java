@@ -8,7 +8,7 @@ import static org.junit.Assert.assertNull;
 
 public class UserStoreTest {
 
-    private UserStore<User> store = new UserStore(1);
+    private AbstractStore<User> store = new UserStore(1);
     private User user = new User("7");
 
     @Test
