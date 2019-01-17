@@ -13,6 +13,7 @@ public class ConteinerByLinkedList<E> implements Iterable<E> {
     public ConteinerByLinkedList() {
     }
 
+
     /**
      * Метод вставляет в начало списка данные.
      */
@@ -67,6 +68,7 @@ public class ConteinerByLinkedList<E> implements Iterable<E> {
         return new Iterator<>() {
             private int position = 0;
             private int expectedModCount = modCount;
+            Node<E> result = new Node<>(null, first);
 
             @Override
             public boolean hasNext() {
@@ -81,11 +83,7 @@ public class ConteinerByLinkedList<E> implements Iterable<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                Node<E> result = first;
-                for (int i = 0; i < position; i++) {
                     result = result.next;
-                }
-                position++;
                 return result.date;
             }
         };
@@ -101,6 +99,11 @@ public class ConteinerByLinkedList<E> implements Iterable<E> {
 
         Node(E date) {
             this.date = date;
+        }
+
+        Node(E date,  Node<E> next) {
+            this.date = date;
+           this.next = next;
         }
     }
 }
