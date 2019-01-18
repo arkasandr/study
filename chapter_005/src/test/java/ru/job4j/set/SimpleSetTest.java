@@ -10,14 +10,14 @@ import static org.hamcrest.Matchers.is;
 public class SimpleSetTest {
 
     @Test
-    public void whenAddDuplicate(){
+    public void whenAddDuplicate() {
         SimpleSet<String> set = new SimpleSet<>();
         assertThat(set.add("A"), is(true));
         assertThat(set.add("A"), is(false));
     }
 
     @Test
-    public void whenAddThreeValuesAndIterate(){
+    public void whenAddThreeValuesAndIterate() {
         SimpleSet<String> set = new SimpleSet<>();
         set.add("s");
         set.add("a");
@@ -32,7 +32,7 @@ public class SimpleSetTest {
     }
 
     @Test
-    public void whenAddTwoValuesAndIterate(){
+    public void whenAddTwoValuesAndIterate() {
         SimpleSet<Integer> set = new SimpleSet<>();
         set.add(1);
         set.add(2);
