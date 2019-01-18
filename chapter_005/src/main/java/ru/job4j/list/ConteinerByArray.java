@@ -23,11 +23,12 @@ public class ConteinerByArray<E> implements Iterable<E> {
      * Метод вставляет элемент в контейнер.
      */
     public boolean add(E value) {
-        modCount++;
+
         if (index >= conteiner.length) {
             conteiner = Arrays.copyOf(this.conteiner, this.conteiner.length * 2);
         }
             conteiner[index++] = value;
+            modCount++;
         return true;
     }
 
@@ -51,7 +52,7 @@ public class ConteinerByArray<E> implements Iterable<E> {
                     if (expectedModCount != modCount) {
                         throw new ConcurrentModificationException();
                     }
-                        return this.position < conteiner.length;
+                        return this.position < index;
                 }
 
                 @Override

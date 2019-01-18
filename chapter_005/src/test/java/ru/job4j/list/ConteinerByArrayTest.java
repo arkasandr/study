@@ -22,7 +22,10 @@ public class ConteinerByArrayTest {
     public void whenAddAndCheckNext() {
         ConteinerByArray<Integer> conteiner = new ConteinerByArray<>(1);
         conteiner.add(1);
+        conteiner.add(2);
         Iterator<Integer> it = conteiner.iterator();
+        assertThat(it.hasNext(), is(true));
         assertThat(it.next(), is(1));
+
     }
 }
