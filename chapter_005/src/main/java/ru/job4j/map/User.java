@@ -39,12 +39,12 @@ public class User {
         this.birthday = birthday;
     }
 
-//    @Override
-//    public int hashCode() {
-//        return 7 * Objects.hashCode(name)
-//                + 11 * new Integer(children).hashCode()
-//                + 13 * Objects.hashCode(birthday);
-//    }
+    @Override
+    public int hashCode() {
+        return 7 * Objects.hashCode(name)
+                + 11 * new Integer(children).hashCode()
+                + 13 * Objects.hashCode(birthday);
+    }
 
 
     @Override
