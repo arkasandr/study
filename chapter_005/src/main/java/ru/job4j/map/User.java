@@ -39,10 +39,28 @@ public class User {
         this.birthday = birthday;
     }
 
+//    @Override
+//    public int hashCode() {
+//        return 7 * Objects.hashCode(name)
+//                + 11 * new Integer(children).hashCode()
+//                + 13 * Objects.hashCode(birthday);
+//    }
+
+
     @Override
-    public int hashCode() {
-        return 7 * Objects.hashCode(name)
-                + 11 * new Integer(children).hashCode()
-                + 13 * Objects.hashCode(birthday);
+    public boolean equals(Object obj) {
+        boolean result;
+        if (this == obj) {
+            result = true;
+        } else if (obj == null) {
+            result = false;
+        } else if (getClass() != obj.getClass()) {
+            result = false;
+        }
+        User other = (User) obj;
+        result = Objects.equals(name, ((User) obj).name)
+                && children == other.children
+                && Objects.equals(birthday, other.birthday);
+        return result;
     }
 }

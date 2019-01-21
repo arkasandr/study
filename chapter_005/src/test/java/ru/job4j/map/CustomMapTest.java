@@ -13,7 +13,7 @@ import static org.hamcrest.Matchers.is;
 public class CustomMapTest {
 
     @Test
-    public void whenOnlyHashCodeIsOverride() {
+    public void whenOnlyEqualsIsOverride() {
         User user1 = new User("Alex", 1, new GregorianCalendar(1985, 8, 8));
         User user2 = new User("Alex", 1, new GregorianCalendar(1985, 8, 8));
         Map map = new HashMap<User, Object>();
