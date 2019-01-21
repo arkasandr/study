@@ -3,23 +3,23 @@ package ru.job4j.map;
 import java.util.Calendar;
 
 public class User {
-
-    private String Name;
+    private String name;
     private int children;
     private Calendar birthday;
 
+
     public User(String name, int children, Calendar birthday) {
-        Name = name;
+        this.name = name;
         this.children = children;
         this.birthday = birthday;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public int getChildren() {
