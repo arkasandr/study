@@ -49,18 +49,16 @@ public class User {
 
     @Override
     public boolean equals(Object obj) {
-        boolean result;
         if (this == obj) {
-            result = true;
+            return false;
         } else if (obj == null) {
-            result = false;
+            return false;
         } else if (getClass() != obj.getClass()) {
-            result = false;
+            return false;
         }
         User other = (User) obj;
-        result = Objects.equals(name, ((User) obj).name)
+        return Objects.equals(name, ((User) obj).name)
                 && children == other.children
                 && Objects.equals(birthday, other.birthday);
-        return result;
     }
 }
