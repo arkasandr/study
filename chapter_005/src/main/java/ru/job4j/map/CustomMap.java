@@ -1,6 +1,5 @@
 package ru.job4j.map;
 
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,4 +10,6 @@ public class CustomMap {
     public CustomMap(Map<User, Object> customMap) {
         this.customMap = customMap;
     }
+
+
 }
