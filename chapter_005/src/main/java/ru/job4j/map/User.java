@@ -61,4 +61,15 @@ public class User {
                 && children == other.children
                 && Objects.equals(birthday, other.birthday);
     }
+
+    @Override
+    public String toString() {
+        return "User{"
+                + "name='"
+                + name
+                + '\''
+                + ", children=" + children
+                + ", birthday=" + birthday.getTime()
+                + '}';
+    }
 }
