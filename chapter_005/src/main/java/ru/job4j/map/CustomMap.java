@@ -80,7 +80,7 @@ public class CustomMap<K, V> implements Iterable<Map.Entry<K, V>> {
         Entry<K, V>[] resized = new Entry[table.length * 2];
         for (int i = 0; i < table.length; i++) {
             if (table[i] != null) {
-                resized[hash(table[i].getKey())] = table[i];
+                resized[hash(table[i].getKey()) & (table.length - 1)] = table[i];
             }
         }
         table = resized;
@@ -102,9 +102,10 @@ public class CustomMap<K, V> implements Iterable<Map.Entry<K, V>> {
      */
     public V get(K key) {
         int h = hash(key.hashCode());
-        if (table[h] != null) {
-            if (table[h].getKey().equals(key)) {
-                return (V) table[h].getValue();
+        int index = h & (table.length - 1);
+        if (table[index] != null) {
+            if (table[index].getKey().equals(key)) {
+                return (V) table[index].getValue();
             }
         }
         return null;
@@ -115,9 +116,10 @@ public class CustomMap<K, V> implements Iterable<Map.Entry<K, V>> {
      */
     public boolean delete(K key) {
         int h = hash(key.hashCode());
-        if (table[h] != null) {
-            if (table[h].getKey().equals(key)) {
-                table[h] = null;
+        int index = h & (table.length - 1);
+        if (table[index] != null) {
+            if (table[index].getKey().equals(key)) {
+                table[index] = null;
                 modCount--;
                 return true;
             }
