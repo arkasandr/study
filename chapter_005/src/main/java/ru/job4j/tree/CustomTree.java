@@ -48,26 +48,17 @@ public class CustomTree<E extends Comparable<E>> implements SimpleTree<E> {
 
     @Override
     public boolean isBinary() {
-        boolean result = false;
+        boolean result = true;
         Queue<Node<E>> data = new LinkedList<>();
         data.offer(this.root);
-        int i = 0;
         while (!data.isEmpty()) {
             Node<E> el = data.poll();
-            for (Node<E> child : el.leaves()) {
-                data.offer(child);
-                i++;
-            }
-            if (i <= 2) {
-                result = true;
+            if (el.leaves().size() > 2) {
+                result = false;
             }
         }
         return result;
     }
-
-
-
-
 
 
     @Override
