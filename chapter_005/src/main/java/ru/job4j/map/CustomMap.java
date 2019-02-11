@@ -80,7 +80,7 @@ public class CustomMap<K, V> implements Iterable<Map.Entry<K, V>> {
         Entry<K, V>[] resized = new Entry[table.length * 2];
         for (int i = 0; i < table.length; i++) {
             if (table[i] != null) {
-                resized[hash(table[i].getKey()) & (table.length - 1)] = table[i];
+                resized[hash(table[i].getKey())] = table[i];
             }
         }
         table = resized;
