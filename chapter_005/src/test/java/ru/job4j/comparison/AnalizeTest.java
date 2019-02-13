@@ -47,6 +47,16 @@ public class AnalizeTest {
         assertThat(stat.diff(previous, current).toString(), is("added = 0, changed = 1, deleted = 0"));
     }
 
+    @Test
+    public void whenAddOneChangeOneDeleteOneElementThenAllAreOne() {
+        List<User> previous = new ArrayList<>(Arrays.asList(new User(1, "Alex"), new User(2, "Ivan"), new User(3, "Peter")));
+        List<User> current = new ArrayList<>(Arrays.asList(new User(1, "Alex"), new User(2, "Vano"), new User(4, "Sam")));
+        Analize stat = new Analize();
+        stat.diff(previous, current);
+        assertThat(stat.diff(previous, current).toString(), is("added = 1, changed = 1, deleted = 1"));
+    }
+
+
 
 
 
