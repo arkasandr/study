@@ -81,7 +81,7 @@ public class CustomMap<K, V> implements Iterable<Map.Entry<K, V>> {
         for (int i = 0; i < table.length; i++) {
             if (table[i] != null) {
                 int h = hash(table[i].getKey().hashCode());
-                int index = h & (table.length - 1);
+                int index = h & (resized.length - 1);
                 resized[index] = table[i];
             }
         }
