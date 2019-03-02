@@ -29,8 +29,8 @@ public class Analize {
             } else if (!us.getName().equals(user.getName())) {
                 changed++;
             }
-            added = store.size();
         }
+        added = store.size();
             return new Info(added, changed, deleted);
         }
     }
