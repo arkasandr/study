@@ -7,20 +7,17 @@ public class CheckByteStream {
     public boolean isNumber(InputStream in) {
         boolean result = false;
         int b;
-            try (in) {
+            try {
                 while ((b = in.read()) != -1) {
-                    if (b <= 57 && b >= 48) {
-                        return false;
-                    } else if ((b % 2) == 0) {
+                    if ((b % 2) == 0) {
                         result = true;
                     } else {
                         result = false;
                     }
                 }
-            }
-                catch (IOException ioex) {
+            } catch (IOException ioex) {
                     ioex.printStackTrace();
                 }
             return result;
-        }
+    }
 }
