@@ -4,6 +4,7 @@ import org.junit.Test;
 
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,19 +13,21 @@ import static org.hamcrest.Matchers.is;
 public class CheckByteStreamTest {
 
     @Test
-    public void whenStreamEndWithEvenNumberThenTrue() {
+    public void whenStreamEndWithEvenNumberThenTrue() throws IOException {
         CheckByteStream test = new CheckByteStream();
-        byte[] input = {1, 2, 3, 4};
-        InputStream in = new ByteArrayInputStream(input);
-        assertThat(test.isNumber(in), is(true));
+        String str = "1234";
+        try (InputStream in = new ByteArrayInputStream(str.getBytes())) {
+            assertThat(test.isNumber(in), is(true));
+        }
     }
 
     @Test
-    public void whenStreamEndWithOddNumberThenFalse() {
+    public void whenStreamNotNumberThenFalse() throws IOException {
         CheckByteStream test = new CheckByteStream();
         String str = "string";
-        InputStream in = new ByteArrayInputStream(str.getBytes());
-        assertThat(test.isNumber(in), is(false));
+        try (InputStream in = new ByteArrayInputStream(str.getBytes())) {
+            assertThat(test.isNumber(in), is(false));
+        }
     }
 
 }
