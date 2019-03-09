@@ -18,20 +18,15 @@ public class CheckByteStream {
      * @param in входной поток
      * @return true если поток оканчивается четным числом
      */
-    public boolean isNumber(InputStream in) throws IOException{
+    public boolean isNumber(InputStream in) throws IOException {
         boolean result = false;
-        int b;
-            try (in) {
-                while ((b = in.read()) != -1) {
+        int b = in.read();
+                while (b  != -1) {
                     if (b < 57 & b > 48) {
-                        if ((b % 2) == 0) {
-                            result = true;
-                        } else {
-                            result = false;
-                        }
+                        result = ((b % 2) == 0);
                     }
+                    b = in.read();
                 }
-            }
             return result;
     }
 }
