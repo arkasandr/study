@@ -19,17 +19,17 @@ public class DeleteAbuse {
          * @param abuse массив запрещенных слов
          */
         public void dropAbuses(InputStream in, OutputStream out, String[] abuse) throws IOException {
-            try ( BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             OutputStreamWriter writer = new OutputStreamWriter(out);
             ) {
                 reader.lines()
                         .forEach(word -> {
-                            for(String abuseWord : abuse) {
+                            for (String abuseWord : abuse) {
                                 word = word.replaceAll(abuseWord, " ");
                             }
                             try {
                                 writer.write(word);
-                            } catch (IOException e){
+                            } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         });

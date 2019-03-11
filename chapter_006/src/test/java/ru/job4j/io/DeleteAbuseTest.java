@@ -15,7 +15,7 @@ public class DeleteAbuseTest {
         DeleteAbuse test = new DeleteAbuse();
         String[] abuse = {"three four"};
         String  input = "one two three four, five";
-        String result ="one two  , five";
+        String result = "one two  , five";
 
         try (InputStream in = new ByteArrayInputStream(input.getBytes());
              OutputStream out = new ByteArrayOutputStream()) {
