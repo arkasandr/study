@@ -1,8 +1,8 @@
 package ru.job4j.io;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * @author Alex Arkashev (arkasandr@gmail.com)
@@ -12,14 +12,30 @@ import java.io.OutputStream;
 public class DeleteAbuse {
 
         /**
-         * Метод удаляет слова, указанные в массиве, из входного и выходного байтовых потоков.
+         * Метод преобразует входной поток в выходной, удаляя слова, указанные в массиве.
          *
          * @param in входной поток
          * @param out выходной поток
-         * @return true если поток оканчивается четным числом
+         * @param abuse массив запрещенных слов
          */
-        void dropAbuses(InputStream in, OutputStream out, String[] abuse) throws IOException {
-
+        public void dropAbuses(InputStream in, OutputStream out, String[] abuse) throws IOException {
+            try ( BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            OutputStreamWriter writer = new OutputStreamWriter(out);
+            ) {
+                reader.lines()
+                        .forEach(word -> {
+                            for(String abuseWord : abuse) {
+                                word = word.replaceAll(abuseWord, " ");
+                            }
+                            try {
+                                writer.write(word);
+                            } catch (IOException e){
+                                e.printStackTrace();
+                            }
+                        });
+            }
         }
+
+
 }
 
