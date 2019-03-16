@@ -18,7 +18,17 @@ public class FileScannerTest {
         List<String> list = new ArrayList<>();
         list.add(".vsd");
         list.add(".SLDPRT");
-        List<File> result = fs.searchFiles("C:/Users/Arkaleks/AppData/Local/Temp/", list);
-        assertThat(list, containsInAnyOrder(".vsd", ".SLDPRT"));
+        String path = System.getProperty("java.io.tmpdir");
+        String testDir = path + "\\testDir";
+        new File(testDir).mkdirs();
+        new File(testDir + "\\firstDir").mkdirs();
+        new File(testDir + "\\secondDir").mkdirs();
+        new File(testDir + "\\secondDir\\thirdDir").mkdirs();
+        File firstFile = new File(testDir + "\\firstFile.vsd");
+        firstFile.createNewFile();
+        File secondFile = new File(testDir + "\\secondDir\\secondFile.SLDPRT");
+        secondFile.createNewFile();
+        List<File> result = fs.searchFiles(testDir, list);
+        assertThat(result, containsInAnyOrder(firstFile, secondFile));
     }
 }
