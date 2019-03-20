@@ -51,6 +51,12 @@
             <version>11</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.pcj</groupId>
+            <artifactId>google-options</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -112,6 +118,23 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                        <compress>true</compress>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>libs/</classpathPrefix>
+                            <mainClass>a1s.client.App</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <version>2.4</version>
             </plugin>
         </plugins>
     </build>
