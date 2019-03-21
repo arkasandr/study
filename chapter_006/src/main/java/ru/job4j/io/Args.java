@@ -32,7 +32,7 @@ public class Args{
     public Args(String[] args) {
         List<String> options = null;
         for (int i = 0; i < args.length; i++) {
-        final String a = args[i];
+        String a = args[i];
         if (a.charAt(0) == '-') {
             if (a.length() < 2) {
                 System.err.println("Error at argument " + a);
@@ -66,7 +66,7 @@ public class Args{
             if(!key.equals("o")) {
                 System.out.println("Zip name is absent!");
             }
-            output = params.get(key).get(1);
+            output = params.get(key).get(0);
         }
         return output;
     }
