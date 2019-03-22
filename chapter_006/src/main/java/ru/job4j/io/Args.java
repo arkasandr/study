@@ -11,7 +11,7 @@ import java.util.Map;
  * @since 0.1
  */
 
-public class Args{
+public class Args {
 
     /**
      * Метод возвращает список всех файлов, заданного расширения, в указанном каталоге и подкаталогах.
@@ -40,11 +40,10 @@ public class Args{
             }
             options = new ArrayList<>();
             params.put(a.substring(1), options);
-        }
-        else if (options != null) {
+            System.out.println(a.substring(1));
+        } else if (options != null) {
             options.add(a);
-        }
-        else {
+        } else {
             System.err.println("Illegal parameter usage");
             return;
         }
@@ -52,18 +51,20 @@ public class Args{
     }
 
     public String directory() {
-        for(String key : this.params.keySet()) {
-            if(!key.equals("d")) {
+        for (String key : this.params.keySet()) {
+            if (!key.equals("d")) {
                 System.out.println("Invalid path. Check directory!");
+            } else {
+                directory = params.get(key).get(0);
+                System.out.println("directory" + directory);
             }
-            directory = params.get(key).get(0);
         }
         return directory;
     }
 
     public String output() {
-        for(String key : this.params.keySet()) {
-            if(!key.equals("o")) {
+        for (String key : this.params.keySet()) {
+            if (!key.equals("o")) {
                 System.out.println("Zip name is absent!");
             }
             output = params.get(key).get(0);
@@ -72,12 +73,15 @@ public class Args{
     }
 
     public List<String> exts() {
-        for(String key : this.params.keySet()) {
-            if(!key.equals("e")) {
+        for (String key : this.params.keySet()) {
+            if (!key.equals("e")) {
                 System.out.println("Check exclude extensions!");
-            }
-            for(String value : params.get(key)) {
+            } else {
+            for (String value : params.get(key)) {
+                System.out.println("-------");
+                System.out.println(value);
                 exts.add(value);
+            }
             }
         }
         return exts;
