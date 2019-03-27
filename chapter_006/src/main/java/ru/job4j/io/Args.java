@@ -13,21 +13,22 @@ import java.util.Map;
 
 public class Args {
 
-    /**
-     * Метод возвращает список всех файлов, заданного расширения, в указанном каталоге и подкаталогах.
-     *
-     * @param parent путь к каталогу, с которого стоит начать поиск
-     * @param exts   список заданных расширений файлов для поиска
-     * @return список файлов с заданным расширением
-     */
-
 
     private String directory;
     private String output;
+    /**
+     * создаем список для хранения исключаемых при архивации расширений файлов
+     */
     private List<String> exts = new ArrayList<>();
+    /**
+     * создаем отображение для хранения значений по ключам (-d, -e, -o).
+     */
     private Map<String, List<String>> params = new HashMap<>();
 
-
+    /**
+     * конструктор класса, который заполняет отображение params ключами и значениями.
+     * путем парсинга символьной строки при вводе команды архивации.
+     */
 
     public Args(String[] args) {
         List<String> options = null;
@@ -50,18 +51,27 @@ public class Args {
     }
     }
 
+    /**
+     * Метод возвращает путь директории, с которой следует начать архивацию.
+     *
+     * @return начальная директория.
+     */
     public String directory() {
         for (String key : this.params.keySet()) {
             if (!key.equals("d")) {
                 System.out.println("Invalid path. Check directory!");
             } else {
                 directory = params.get(key).get(0);
-                System.out.println("directory" + directory);
             }
         }
         return directory;
     }
 
+    /**
+     * Метод возвращает имя создаваемого архива.
+     *
+     * @return имя архива.
+     */
     public String output() {
         for (String key : this.params.keySet()) {
             if (!key.equals("o")) {
@@ -72,14 +82,17 @@ public class Args {
         return output;
     }
 
+    /**
+     * Метод возвращает список расширений файлов, которые не должны быть вкключены в архив.
+     *
+     * @return список исключаемых расширений.
+     */
     public List<String> exts() {
         for (String key : this.params.keySet()) {
             if (!key.equals("e")) {
                 System.out.println("Check exclude extensions!");
             } else {
             for (String value : params.get(key)) {
-                System.out.println("-------");
-                System.out.println(value);
                 exts.add(value);
             }
             }
