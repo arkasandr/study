@@ -1,10 +1,9 @@
 package ru.job4j.io;
 
+import com.sun.scenario.Settings;
+
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,37 +11,55 @@ public class BotChat {
 
     private static final String SENTENCE_REGULAR_EXPRESSION = "(.+?[!\\?\\.]+)+?";
     private static final Pattern SENTENCE_PATTERN = Pattern.compile(SENTENCE_REGULAR_EXPRESSION);
-    private Scanner scanner = new Scanner(System.in);
-    private final String STOP = "стоп";
-    private final String CONTINUE = "продолжить";
-    private final String EXIT = "закончить";
+    static final String STOP = "стоп";
+    static final String CONTINUE = "продолжить";
+    static final String EXIT = "закончить";
     private boolean switchValue = true;
+    private File botAnswers = new File(this.getPathFromProperties("Answers_Path"));
+    private File log = new File(this.getPathFromProperties("Log_Path"));
 
+    /**
+     * Коснтруктор для теста.
+     */
+    public BotChat(File newLog, File newAnswers) throws IOException {
+        this.botAnswers = newAnswers;
+        this.log = newLog;
+    }
 
-
-    private static Collection<String> parseText(File file) throws IOException {
-        ArrayList<String> result = new ArrayList<>();
+    /**
+     * Метод парсит текст и выбирает ответ бота
+     * @param file
+     * @return
+     * @throws IOException
+     */
+    private static String parseText(File file) {
+        ArrayList<String> resultTemp = new ArrayList<>();
         String line;
+        String result = null;
         try {
             FileInputStream fs = new FileInputStream(file);
             BufferedReader br = new BufferedReader(new InputStreamReader(fs));
             while ((line = br.readLine()) != null) {
                 Matcher matcher = SENTENCE_PATTERN.matcher(line);
                 while (matcher.find()) {
-                    result.add(matcher.group().trim());
+                    resultTemp.add(matcher.group().trim());
                 }
             }
             Random rand = new Random();
-            int randIndex = rand.nextInt(result.size());
-            result.get(randIndex);
-            System.out.println(result.get(randIndex));
+            int randIndex = rand.nextInt(resultTemp.size());
+            result = resultTemp.get(randIndex);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return result;
     }
 
-
+    /**
+     * Метод определяет окончание или продолжение диалога с ботом
+     * @param string
+     * @return
+     * @throws
+     */
     private void switcher(String string) {
         if (this.STOP.equals(string)) {
             this.switchValue = false;
@@ -51,27 +68,44 @@ public class BotChat {
         }
     }
 
+    /**
+     * Метод возвращает пути для файлов ответов и лога из botChat.properties
+     * @param key
+     * @return
+     * @throws IOException
+     */
+    private String getPathFromProperties(String key) throws IOException {
+        Properties props = new Properties();
+        ClassLoader loader = Settings.class.getClassLoader();
+        try (InputStream in = loader.getResourceAsStream("botChat/botChat.properties")) {
+            props.load(in);
+        }
+        return props.getProperty(key);
+    }
 
-    public void run(File file) throws IOException {
-        String userText = scanner.nextLine();
+    /**
+     * Метод реализует диалог пользователя и бота
+     * @param in
+     * @return
+     * @throws IOException
+     */
+    public void run(InputStream in) throws IOException {
+        try (FileWriter writer = new FileWriter(this.log, true);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in))
+            ) {
+            String userText;
+            while ((userText = reader.readLine()) != null) {
             while (!userText.equals(EXIT)) {
                 this.switcher(userText);
+                writer.write("-USER: " + userText + System.lineSeparator());
                 if (switchValue) {
-                    this.parseText(file);
+                    this.parseText(this.botAnswers);
+                    writer.write("-BOT: " + this.parseText(this.botAnswers) + System.lineSeparator());
                 }
-                userText = scanner.nextLine();
+                break;
             }
-        System.out.println("Bye!");
-        }
-
-
-    public static void main(String[] args) {
-        BotChat b = new BotChat();
-        try {
-            b.run(new File("/home/arkaleks/Downloads/1.txt"));
-
-        } catch (IOException e) {
-            e.printStackTrace();
+            }
+            writer.write("-EXIT: " + EXIT + System.lineSeparator());
         }
     }
 }
