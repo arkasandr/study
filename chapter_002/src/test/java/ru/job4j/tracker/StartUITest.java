@@ -29,6 +29,8 @@ public class StartUITest {
             System.out.println("execute after method");
         }
 
+
+
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Tracker tracker = new Tracker();     // создаём Tracker

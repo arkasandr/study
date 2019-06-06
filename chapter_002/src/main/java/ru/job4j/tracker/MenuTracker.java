@@ -16,7 +16,7 @@ public class MenuTracker {
     /**
      * Хранилище заявок.
      */
-    private Tracker tracker;
+    private ITracker tracker;
     /**
      * Массив содержит допустимые действия.
      */
@@ -50,7 +50,7 @@ public class MenuTracker {
             super(key, name);
         }
 
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             String id = input.ask("Введите Id заявки :");
             String name = input.ask("Введите новое имя заявки :");
             String desc = input.ask("Введите новое описание  заявки :");
@@ -68,7 +68,7 @@ public class MenuTracker {
             super(key, name);
         }
 
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             System.out.println("---------- Поиск заявки по имени  ----------");
             String name = input.ask("Введите имя заявки :");
             tracker.findByName(result -> result.equals(name));
@@ -82,7 +82,7 @@ public class MenuTracker {
     }
 
 
-    public MenuTracker(Input input, Tracker tracker) {
+    public MenuTracker(Input input, ITracker tracker) {
         this.input = input;
         this.tracker = tracker;
     }
@@ -132,7 +132,7 @@ public class MenuTracker {
             super(key, name);
         }
 
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             String name = input.ask("Введите имя заявки :");
             String desc = input.ask("Введите описание  заявки :");
             Item item = new Item(name, desc);
@@ -148,7 +148,7 @@ public class MenuTracker {
             super(key, name);
         }
 
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             System.out.println("------------ Список всех заявок --------------");
             for (Item item : tracker.findAll()) {
                 if (item != null) {
@@ -167,7 +167,7 @@ public class MenuTracker {
             super(key, name);
         }
 
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             String id = input.ask("Введите Id заявки :");
             tracker.delete(id);
         }
@@ -181,7 +181,7 @@ public class MenuTracker {
             super(key, name);
         }
 
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             System.out.println("------ Поиск заявки по уникальному номеру Id ------");
             String id = input.ask("Введите Id заявки :");
             tracker.findById(result -> result.equals(id));
@@ -197,7 +197,7 @@ public class MenuTracker {
             super(key, name);
         }
 
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
         }
     }
 
