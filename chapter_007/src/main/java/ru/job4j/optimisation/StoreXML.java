@@ -15,7 +15,7 @@ public class StoreXML {
     }
 
     public void save(List<Field> entries) {
-        Entry entr = new Entry (entries);
+        Entry entr = new Entry(entries);
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(Entry.class);
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();

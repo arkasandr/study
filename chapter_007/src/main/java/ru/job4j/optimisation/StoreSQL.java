@@ -175,12 +175,13 @@ public class StoreSQL implements AutoCloseable {
      * @throws SQLException
      */
     public void generate(int size) {
-        String insertIntoSchema = "INSERT INTO " + TABLE +
-                                  " (field)" + " VALUES (?)";
+        String insertIntoSchema = "INSERT INTO " + TABLE
+                +
+                " (field)" + " VALUES (?)";
         try (
                 PreparedStatement ps = connection.prepareStatement(insertIntoSchema)) {
             connection.setAutoCommit(false);
-            for(int i = 1; i < size; i++) {
+            for (int i = 1; i <= size; i++) {
                 ps.setInt(1, i);
                 ps.addBatch();
                 System.out.println(i);
@@ -189,29 +190,6 @@ public class StoreSQL implements AutoCloseable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-
-
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        Config conf = new Config();
-        StoreSQL st = new StoreSQL(conf);
-        st.connectDB();
-        st.generate(10);
-       // StoreXML str = new StoreXML(new File("/home/arkaleks/IdeaProjects/target.xml"));
-        StoreXML str = new StoreXML(new File("C:\\projects\\study\\chapter_007\\src\\main\\java\\ru\\job4j\\optimisation\\target.xml"));
-        File target = new File("C:\\projects\\study\\chapter_007\\src\\main\\java\\ru\\job4j\\optimisation\\target.xml");
-        File dest = new File("C:\\projects\\study\\chapter_007\\src\\main\\java\\ru\\job4j\\optimisation\\dest.xml");
-        File schema = new File("C:\\projects\\study\\chapter_007\\src\\main\\java\\ru\\job4j\\optimisation\\schema.xsl");
-        ConvertXSQT xsl = new ConvertXSQT();
-//                File target = new File("/home/arkaleks/IdeaProjects/target.xml");
-//                File dest = new File("/home/arkaleks/IdeaProjects/dest.xml");
-//                File schema = new File("/home/arkaleks/IdeaProjects/schema.xsl");
-//                //File schema = new File("schema.xsl");
-
-        List<Field> en = st.getEntries();
-        str.save(en);
-        xsl.convert(target, dest, schema);
     }
 
 
@@ -235,9 +213,13 @@ public class StoreSQL implements AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
-        if (connection != null) {
-            connection.close();
+    public void close() {
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
