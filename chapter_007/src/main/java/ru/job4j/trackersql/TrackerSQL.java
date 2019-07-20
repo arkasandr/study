@@ -14,20 +14,20 @@ import java.util.function.Predicate;
 public class TrackerSQL implements ITracker, AutoCloseable {
 
 
-    private Connection connection;
+    private final Connection connection;
     private static final String TABLE = "items";
     private static final Random RN = new Random();
 
-//    public TrackerSQL(Connection connection) {
-//        this.connection = connection;
-//    }
+    public TrackerSQL(Connection connection) {
+        this.connection = connection;
+    }
 
-    public boolean init() {
+    public Connection init() {
         try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
                 Properties config = new Properties();
                 config.load(in);
            // Class.forName(config.getProperty("driver-class-name"));
-            this.connection = DriverManager.getConnection(
+            Connection connection = DriverManager.getConnection(
                     config.getProperty("url"),
                     config.getProperty("username"),
                     config.getProperty("password")
@@ -40,7 +40,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
-        return this.connection != null;
+        return connection;
     }
 
 
@@ -74,7 +74,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
      * @return true
      * @throws SQLException
      */
-    private boolean createSchema() {
+    private  boolean createSchema() {
         boolean result = false;
         String createSchema = "CREATE TABLE IF NOT EXISTS " + TABLE + " ("
                 + "item_id VARCHAR(50) NOT NULL, "
