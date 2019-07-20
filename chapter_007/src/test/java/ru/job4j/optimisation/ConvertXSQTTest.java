@@ -16,15 +16,20 @@ import static org.junit.Assert.*;
 
 public class ConvertXSQTTest {
 
-    private final File target = new File("C:\\projects\\study\\chapter_007\\src\\main\\java\\ru\\job4j\\"
-            +
-            "optimisation\\target.xml");
-    private final File dest = new File("C:\\projects\\study\\chapter_007\\src\\main\\java\\ru\\job4j\\"
-            +
-            "optimisation\\dest.xml");
-    private final File schema = new File("C:\\projects\\study\\chapter_007\\src\\main\\java\\ru\\job4j\\"
-            +
-            "optimisation\\schema.xsl");
+//    private final File target = new File("C:\\projects\\study\\chapter_007\\src\\main\\java\\ru\\job4j\\"
+//            +
+//            "optimisation\\target.xml");
+//    private final File dest = new File("C:\\projects\\study\\chapter_007\\src\\main\\java\\ru\\job4j\\"
+//            +
+//            "optimisation\\dest.xml");
+//    private final File schema = new File("C:\\projects\\study\\chapter_007\\src\\main\\java\\ru\\job4j\\"
+//            +
+//            "optimisation\\schema.xsl");
+//            "optimisation\\schema.xsl");
+
+        private final File target = new File("target.xml");
+    private final File dest = new File("dest.xml");
+    private final File schema = new File("schema.xsl");
 
     @Test
     public void whenConvertXmlThenAnotherXmlCreate() throws ClassNotFoundException, SQLException, IOException {
