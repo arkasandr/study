@@ -50,8 +50,8 @@ public class FileScannerTest {
     public void after() {
         File testDir = new File(temp);
         File[] files = testDir.listFiles();
-        if(files != null) {
-            for(File f:files) {
+        if (files != null) {
+            for (File f:files) {
                 f.delete();
             }
         }
