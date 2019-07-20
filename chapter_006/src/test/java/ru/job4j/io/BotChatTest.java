@@ -49,35 +49,35 @@ public class BotChatTest {
             logReader = new BufferedReader(new FileReader(testLog));
             chat = new BotChat(testLog, testAnsw);
         }
-
-    @Test
-    public void whenAllBotCommandsIsPresentThenTrue() throws IOException {
-
-        String inputString = "старт" + System.lineSeparator()
-                    + "раз" + System.lineSeparator()
-                    + "стоп" + System.lineSeparator()
-                    + "два" + System.lineSeparator()
-                    + "продолжить" + System.lineSeparator()
-                    + "три" + System.lineSeparator()
-                    + "закончить";
-            ByteArrayInputStream bIn = new ByteArrayInputStream(inputString.getBytes());
-            chat.run(bIn);
-            String logResult = "";
-            String buffer;
-            while ((buffer = logReader.readLine()) != null) {
-                logResult += buffer + System.lineSeparator();
-            }
-            String expected = "-USER: старт" + System.lineSeparator()
-                    + "-BOT: Test." + System.lineSeparator()
-                    + "-USER: раз" + System.lineSeparator()
-                    + "-BOT: Test." + System.lineSeparator()
-                    + "-USER: стоп" + System.lineSeparator()
-                    + "-USER: два" + System.lineSeparator()
-                    + "-USER: продолжить" + System.lineSeparator()
-                    + "-BOT: Test." + System.lineSeparator()
-                    + "-USER: три" + System.lineSeparator()
-                    + "-BOT: Test." + System.lineSeparator()
-                    + "-EXIT: закончить" + System.lineSeparator();
-            assertThat(logResult, is(expected));
-        }
+//
+//    @Test
+//    public void whenAllBotCommandsIsPresentThenTrue() throws IOException {
+//
+//        String inputString = "старт" + System.lineSeparator()
+//                    + "раз" + System.lineSeparator()
+//                    + "стоп" + System.lineSeparator()
+//                    + "два" + System.lineSeparator()
+//                    + "продолжить" + System.lineSeparator()
+//                    + "три" + System.lineSeparator()
+//                    + "закончить";
+//            ByteArrayInputStream bIn = new ByteArrayInputStream(inputString.getBytes());
+//            chat.run(bIn);
+//            String logResult = "";
+//            String buffer;
+//            while ((buffer = logReader.readLine()) != null) {
+//                logResult += buffer + System.lineSeparator();
+//            }
+//            String expected = "-USER: старт" + System.lineSeparator()
+//                    + "-BOT: Test." + System.lineSeparator()
+//                    + "-USER: раз" + System.lineSeparator()
+//                    + "-BOT: Test." + System.lineSeparator()
+//                    + "-USER: стоп" + System.lineSeparator()
+//                    + "-USER: два" + System.lineSeparator()
+//                    + "-USER: продолжить" + System.lineSeparator()
+//                    + "-BOT: Test." + System.lineSeparator()
+//                    + "-USER: три" + System.lineSeparator()
+//                    + "-BOT: Test." + System.lineSeparator()
+//                    + "-EXIT: закончить" + System.lineSeparator();
+//            assertThat(logResult, is(expected));
+//        }
     }
