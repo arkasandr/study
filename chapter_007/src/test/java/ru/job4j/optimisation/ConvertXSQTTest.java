@@ -45,9 +45,7 @@ public class ConvertXSQTTest {
         xsl.convert(target, dest, schema);
         assertThat(dest.exists(), is(true));
         String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><entries><field href=\"1\"/></entries>";
-        Stream<String> lines = Files.lines(Paths.get("C:\\projects\\study\\chapter_007\\src\\main\\java\\ru\\job4j\\"
-                +
-                "optimisation\\dest.xml"));
+        Stream<String> lines = Files.lines(Paths.get("C:\\projects\\study\\chapter_007\\dest.xml"));
         // Formatting like \r\n will be lost
         // String content = lines.collect(Collectors.joining());
         // UNIX \n, Windows \r\n
