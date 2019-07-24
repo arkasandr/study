@@ -1,8 +1,15 @@
 package ru.job4j.parsersql;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import java.io.File;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -19,9 +26,14 @@ public class WorkParser implements AutoCloseable {
     private static final String TABLE = "vacancy";
     private static final String DATABASE = "vacancies.db";
 
+    private HashSet<String> links;
+    private List<List<String>> articles;
+
     public WorkParser(Config config) {
         this.config = config;
         this.config.init();
+        links = new HashSet<>();
+        articles = new ArrayList<>();
     }
 
     /**
@@ -41,9 +53,7 @@ public class WorkParser implements AutoCloseable {
         if (!checkSchemaExist()) {
             System.out.println("Table doesn't exist");
             createSchema();
-           showSchema();
         }
-        showSchema();
         return this.connection != null;
     }
 
@@ -58,10 +68,11 @@ public class WorkParser implements AutoCloseable {
             for (int i = 1; i <= size; i++) {
                 ps.setInt(1, i);
                 ps.addBatch();
-                showSchema();
+             //   showSchema();
              //   System.out.println(i);
             }
             ps.executeBatch();
+            showSchema();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -195,6 +206,61 @@ public class WorkParser implements AutoCloseable {
         }
         return result;
     }
+
+
+
+    public void getPageLinks(String URL) {
+        if (!links.contains(URL)) {
+            try {
+                Document document = Jsoup.connect(URL).get();
+                Elements otherLinks = document.select("a[href^=\"https://www.sql.ru/forum/\"]");
+                //      Elements otherLinks = document.select("java");
+                //               Elements otherLinks = document.select("a[href]");
+                for (Element page : otherLinks) {
+                    if (links.add(URL)) {
+//                otherLinks.stream().map((link) -> link.attr("abs:href")).forEachOrdered((this_url) -> {
+//                            boolean add = links.add(this_url);
+//                            if (add && this_url.contains(URL)) {
+//                                System.out.println(this_url);
+//                                getPageLinks(this_url);
+//                            }
+//                        });
+                    //Remove the comment from the line below if you want to see it running on your editor
+                    System.out.println(URL);
+//                        System.out.println("Link: " + page.attr("href"));
+//                        System.out.println("Text: " + page.text());
+                }
+                getPageLinks(page.attr("abs:href"));
+            }
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
+        }
+    }
+
+
+//    public void getPageLinks(String URL) {
+//        if (!links.contains(URL)) {
+//            try {
+//                Document document = Jsoup.connect(URL).get();
+//          //      Elements otherLinks = document.select("a[href^=\"http://www.mkyong.com/page/\"]");
+//                Elements otherLinks = document.select("a[href]");
+//
+//                for (Element page : otherLinks) {
+//                    if (links.add(URL)) {
+//                        //Remove the comment from the line below if you want to see it running on your editor
+//                        System.out.println(URL);
+//                    }
+//                    getPageLinks(page.attr("abs:href"));
+//                    System.out.println(URL);
+//                }
+//            } catch (IOException e) {
+//                System.err.println(e.getMessage());
+//            }
+//        }
+//    }
+
+
 
     @Override
     public void close() {

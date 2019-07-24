@@ -18,8 +18,9 @@ import java.sql.SQLException;
             WorkParser workParser = new WorkParser(conf);
 
             workParser.connectDB();
-          workParser.generate(10);
-
-
+         // workParser.generate(10);
+            workParser.getPageLinks("http://www.sql.ru/forum/job-offers");
+//            workParser.getPageLinks("http://www.mkyong.com");
+            System.out.println("Ok!");
         }
 }
