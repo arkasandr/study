@@ -21,6 +21,7 @@ import java.sql.SQLException;
          // workParser.generate(10);
             workParser.getPageLinks("http://www.sql.ru/forum/job-offers");
 //            workParser.getPageLinks("http://www.mkyong.com");
+            workParser.getVacancies();
             System.out.println("Ok!");
         }
 }

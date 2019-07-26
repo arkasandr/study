@@ -213,30 +213,55 @@ public class WorkParser implements AutoCloseable {
         if (!links.contains(URL)) {
             try {
                 Document document = Jsoup.connect(URL).get();
-                Elements otherLinks = document.select("a[href^=\"https://www.sql.ru/forum/\"]");
+                Elements otherLinks = document.select("a[href^=\"https://www.sql.ru/forum/job-offers\"]");
                 //      Elements otherLinks = document.select("java");
                 //               Elements otherLinks = document.select("a[href]");
                 for (Element page : otherLinks) {
                     if (links.add(URL)) {
+
 //                otherLinks.stream().map((link) -> link.attr("abs:href")).forEachOrdered((this_url) -> {
 //                            boolean add = links.add(this_url);
 //                            if (add && this_url.contains(URL)) {
-//                                System.out.println(this_url);
-//                                getPageLinks(this_url);
+                        System.out.println(URL);
+                        //                               getPageLinks(this_url);
 //                            }
 //                        });
-                    //Remove the comment from the line below if you want to see it running on your editor
-                    System.out.println(URL);
+                        //Remove the comment from the line below if you want to see it running on your editor
+                        // System.out.println(URL);
 //                        System.out.println("Link: " + page.attr("href"));
 //                        System.out.println("Text: " + page.text());
+                    }
+                    getPageLinks(page.attr("abs:href"));
                 }
-                getPageLinks(page.attr("abs:href"));
-            }
             } catch (IOException e) {
                 System.err.println(e.getMessage());
             }
         }
     }
+
+
+
+    public void getVacancies() {
+        links.forEach(x -> {
+            try {
+                Document document = Jsoup.connect(x).get();
+                Elements vacancies = document.select("a[href^=\"https://www.sql.ru/forum/\"]");
+
+                for (Element vacancy : vacancies) {
+                    if (vacancy.text().matches("^.*?(Java|java|JAVA).*$")) {
+                        if (!vacancy.text().matches("^.*?(Script|script|SCRIPT).*$")) {
+
+                            System.out.println(vacancy.attr("abs:href"));
+                            System.out.println(vacancy.text());
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
+        });
+    }
+
 
 
 //    public void getPageLinks(String URL) {
