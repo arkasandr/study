@@ -26,9 +26,7 @@ WHERE (company_id != 5);
 
 --2) Select the name of the company with the maximum number of persons + number of persons in this company
 SELECT *
-FROM ((SELECT company.name, (COUNT(person.company_id)) AS per_c
+FROM (SELECT company.name AS company_name, (COUNT(person.company_id)) AS number_of_persons
        FROM company
               INNER JOIN person ON (person.company_id = company.id)
-       GROUP BY company.name)) AS s
-WHERE s.per_c = (2);
-
+       GROUP BY company.name ORDER BY number_of_persons DESC LIMIT 1) AS s;
