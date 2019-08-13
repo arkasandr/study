@@ -8,9 +8,13 @@ import org.jsoup.select.Elements;
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.time.Month;
 
 /**
  * @author Alex Arkashev (arkasandr@gmail.com)
@@ -27,17 +31,22 @@ public class WorkParser implements AutoCloseable {
     private static final String DATABASE = "vacancies.db";
 
     private HashSet<String> links;
-    private List<List<String>> articles;
+   // private List<Vacancy> vacancies;
+    private HashSet<Vacancy> vacancies;
+    private final Map<String, Month> months = new HashMap<>();
 
     public WorkParser(Config config) {
         this.config = config;
         this.config.init();
         links = new HashSet<>();
-        articles = new ArrayList<>();
+        //vacancies = new ArrayList<>();
+        vacancies = new HashSet<>();
     }
+
 
     /**
      * Метод осущствляет подключение к базе данных
+     *
      * @param
      * @return
      * @throws
@@ -58,21 +67,18 @@ public class WorkParser implements AutoCloseable {
     }
 
 
-    public void generate(int size) {
+    public void loadDB(Vacancy vacancy) {
         String insertIntoSchema = "INSERT INTO " + TABLE
                 +
-                " (vacancy_name)" + " VALUES (?)";
+                " (id, title, text, link, createDate)" + " VALUES (?,?,?,?,?)";
         try (
                 PreparedStatement ps = connection.prepareStatement(insertIntoSchema)) {
-            connection.setAutoCommit(false);
-            for (int i = 1; i <= size; i++) {
-                ps.setInt(1, i);
-                ps.addBatch();
-             //   showSchema();
-             //   System.out.println(i);
-            }
-            ps.executeBatch();
-            showSchema();
+            ps.setString(1, vacancy.getId());
+            ps.setString(2, vacancy.getTitle());
+            ps.setString(3, vacancy.getText());
+            ps.setString(4, vacancy.getLink());
+            ps.setTimestamp(5, Timestamp.valueOf(vacancy.getCreateDate()));
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -81,6 +87,7 @@ public class WorkParser implements AutoCloseable {
 
     /**
      * Метод определяет, существует ли необходимая база данных
+     *
      * @param
      * @return
      * @throws
@@ -100,6 +107,7 @@ public class WorkParser implements AutoCloseable {
 
     /**
      * Метод создает необходимую базу данных
+     *
      * @param
      * @return
      * @throws
@@ -119,6 +127,7 @@ public class WorkParser implements AutoCloseable {
 
     /**
      * Метод проверяет наличие необходимой схемы в базе данных
+     *
      * @param
      * @return
      * @throws
@@ -141,53 +150,54 @@ public class WorkParser implements AutoCloseable {
         return result;
     }
 
-    /**
-     * Метод создает необходимую схему в базе данных
-     * @param
-     * @return true
-     * @throws SQLException
-     */
-    private boolean clearSchema() {
-        boolean result = false;
-        String clearSchema = "DELETE FROM " + TABLE;
-        try (
-                PreparedStatement ps = connection.prepareStatement(clearSchema)) {
-            ps.executeUpdate();
-            result = true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
+//    /**
+//     * Метод очищает необходимую схему в базе данных
+//     * @param
+//     * @return true
+//     * @throws SQLException
+//     */
+//    private boolean clearSchema() {
+//        boolean result = false;
+//        String clearSchema = "DELETE FROM " + TABLE;
+//        try (
+//                PreparedStatement ps = connection.prepareStatement(clearSchema)) {
+//            ps.executeUpdate();
+//            result = true;
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return result;
+//    }
+
+//    /**
+//     * Метод создает необходимую схему в базе данных
+//     * @param
+//     * @return true
+//     * @throws SQLException
+//     */
+//    private boolean showSchema() {
+//        boolean result = false;
+//        String showSchema = "SELECT * FROM " + TABLE;
+//        List<Integer> fields = new ArrayList<>();
+//        try (Statement st = connection.createStatement();
+//             ResultSet rs = st.executeQuery(showSchema)) {
+//            while (rs.next()) {
+//                int field = rs.getInt("vacancy_name");
+//                System.out.println("vacancy name =" + field);
+//                fields.add(field);
+//                result = true;
+//            }
+//            int size = fields.size();
+//            System.out.println(size);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return result;
+//    }
 
     /**
      * Метод создает необходимую схему в базе данных
-     * @param
-     * @return true
-     * @throws SQLException
-     */
-    private boolean showSchema() {
-        boolean result = false;
-        String showSchema = "SELECT * FROM " + TABLE;
-        List<Integer> fields = new ArrayList<>();
-        try (Statement st = connection.createStatement();
-             ResultSet rs = st.executeQuery(showSchema)) {
-            while (rs.next()) {
-                int field = rs.getInt("vacancy_name");
-                System.out.println("vacancy name =" + field);
-                fields.add(field);
-                result = true;
-            }
-            int size = fields.size();
-            System.out.println(size);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    /**
-     * Метод очищает необходимую схему в базе данных
+     *
      * @param
      * @return true
      * @throws SQLException
@@ -195,7 +205,12 @@ public class WorkParser implements AutoCloseable {
     private boolean createSchema() {
         boolean result = false;
         String createSchema = "CREATE TABLE IF NOT EXISTS " + TABLE + " ("
-                + "vacancy_name INTEGER NOT NULL "
+                + "vacancy_id INTEGER NOT NULL "
+                + "vacancy_title VARCHAR(1000) "
+                + "vacancy_link VARCHAR(1000) "
+                + "vacancy_text VARCHAR(1000)"
+                + "vacancy_date TIMESTAMP "
+
                 + ")";
         try (
                 PreparedStatement ps = connection.prepareStatement(createSchema)) {
@@ -208,28 +223,14 @@ public class WorkParser implements AutoCloseable {
     }
 
 
-
     public void getPageLinks(String URL) {
         if (!links.contains(URL)) {
             try {
                 Document document = Jsoup.connect(URL).get();
                 Elements otherLinks = document.select("a[href^=\"https://www.sql.ru/forum/job-offers\"]");
-                //      Elements otherLinks = document.select("java");
-                //               Elements otherLinks = document.select("a[href]");
                 for (Element page : otherLinks) {
                     if (links.add(URL)) {
-
-//                otherLinks.stream().map((link) -> link.attr("abs:href")).forEachOrdered((this_url) -> {
-//                            boolean add = links.add(this_url);
-//                            if (add && this_url.contains(URL)) {
-                        System.out.println(URL);
-                        //                               getPageLinks(this_url);
-//                            }
-//                        });
-                        //Remove the comment from the line below if you want to see it running on your editor
-                        // System.out.println(URL);
-//                        System.out.println("Link: " + page.attr("href"));
-//                        System.out.println("Text: " + page.text());
+                        //                     System.out.println(URL);
                     }
                     getPageLinks(page.attr("abs:href"));
                 }
@@ -240,50 +241,184 @@ public class WorkParser implements AutoCloseable {
     }
 
 
-
     public void getVacancies() {
         links.forEach(x -> {
             try {
                 Document document = Jsoup.connect(x).get();
-                Elements vacancies = document.select("a[href^=\"https://www.sql.ru/forum/\"]");
-
-                for (Element vacancy : vacancies) {
+                Elements vacancyElement = document.select("a[href^=\"https://www.sql.ru/forum/\"]");
+                for (Element vacancy : vacancyElement) {
                     if (vacancy.text().matches("^.*?(Java|java|JAVA).*$")) {
                         if (!vacancy.text().matches("^.*?(Script|script|SCRIPT).*$")) {
+                            Vacancy vac = new Vacancy(getId(vacancy.attr("abs:href")), vacancy.text(),
+                                    vacancy.attr("abs:href"), getText(vacancy.attr("abs:href")), getDate(vacancy.attr("abs:href")));
+//                            String insertVacancy = "INSERT INTO " + TABLE + " (vacancy_id, vacancy_title, vacancy_link, vacancy_text, vacancy_date) VALUES" + "(?, ?, ?, ?, ?)";
+//                            try (PreparedStatement ps = connection.prepareStatement(insertVacancy)) {
+//                                ps.setString(1, va.getId());
+//                                ps.setString(2, item.getName());
+//                                ps.setString(3, item.getDescription());
+//                                ps.setTimestamp(4, new java.sql.Timestamp(System.currentTimeMillis()));
+//                                ps.executeUpdate();
+//                            } catch (SQLException e) {
+//                                e.printStackTrace();
+//                            }
+                           // System.out.println(vac);
+                            vacancies.add(vac);
 
-                            System.out.println(vacancy.attr("abs:href"));
-                            System.out.println(vacancy.text());
+
+//                            System.out.println(vacancy.attr("abs:href"));
+//                            System.out.println(vacancy.text());
                         }
                     }
                 }
             } catch (IOException e) {
                 System.err.println(e.getMessage());
             }
+            for(Vacancy v:vacancies) {
+                System.out.println(v);
+            }
         });
     }
 
+    /**
+     * Метод определяет id вакансии
+     *
+     * @param
+     * @return String
+     * @throws
+     */
+    public String getId (String href) {
+        String numberId = null;
+       // Pattern p = Pattern.compile("\\+[0-9]{12}");
+        Pattern p = Pattern.compile("(\\d+)");
+        Matcher m = p.matcher(href);
+        if (m.find()) {
+            numberId = m.group(0);
+        }
+        return numberId;
+    }
 
 
-//    public void getPageLinks(String URL) {
-//        if (!links.contains(URL)) {
-//            try {
-//                Document document = Jsoup.connect(URL).get();
-//          //      Elements otherLinks = document.select("a[href^=\"http://www.mkyong.com/page/\"]");
-//                Elements otherLinks = document.select("a[href]");
+    public Month parseMonth(String str) {
+        return this.months.get(str);
+    }
+
+    /**
+     * Метод определяет описание вакансии
+     *
+     * @param
+     * @return String
+     * @throws
+     */
+    public String getText (String URL) {
+        String description = null;
+        try {
+            Document doc = Jsoup.connect(URL).get();
+            Element table = doc.select("table").get(1); //select the first table.
+            Elements rows = table.select("tr");
+            Element row = table.select("tr").get(1);
+            Elements cols = row.select("td");
+            description = cols.get(1).text();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return description;
+    }
+
+    /**
+     * Метод определяет описание вакансии
+     *
+     * @param
+     * @return String
+     * @throws
+     */
+//    public LocalDateTime getDate (String URL) {
+//        String date = null;
+//        LocalDateTime dateTime = null;
+//        LocalDate localDate = LocalDate.now();
+//        try {
+//            Document doc = Jsoup.connect(URL).get();
+//            Element table = doc.select("table").get(1); //select the first table.
+//            Elements rows = table.select("tr");
+//            Element row = table.select("tr").get(2);
+//            Elements cols = row.select("td");
+//            date = cols.get(0).text();
+//            String newDate = date.substring(0, 9);
+//            System.out.println(newDate);
+//            int year = new Integer("20" + date.substring(date.length() - 2));
+//            String strMonth = date.substring(2, 6).trim();
+//            int day = new Integer(date.substring(0, 2).trim());
+//            localDate = LocalDate.of(year, parseMonth(strMonth), day);
 //
-//                for (Element page : otherLinks) {
-//                    if (links.add(URL)) {
-//                        //Remove the comment from the line below if you want to see it running on your editor
-//                        System.out.println(URL);
-//                    }
-//                    getPageLinks(page.attr("abs:href"));
-//                    System.out.println(URL);
-//                }
-//            } catch (IOException e) {
-//                System.err.println(e.getMessage());
-//            }
+////            String [] arr = date.split("\\s+");
+////            int n = 3; // NUMBER OF WORDS THAT YOU NEED
+//            String nWords = null;
+////
+////            // concatenating number of words that you required
+////            for(int i = 0; i < n ; i++){
+////                nWords = nWords + " " + arr[i] ;
+////                System.out.println(nWords);
+////            }
+////            Pattern pattern = Pattern.compile("\\d{2} \\d{3} \\d{2}");
+////            Matcher matcher = pattern.matcher(date);
+////            if (matcher.find()) {
+////                System.out.println(matcher.group());
+////            }
+////            nWords = matcher.group();
+//
+//
+//            Map<Long, String> map = new HashMap<>();
+//            map.put(1L, "янв");
+//            map.put(2L, "фев");
+//            map.put(3L, "мар");
+//            map.put(4L, "апр");
+//            map.put(5L, "май");
+//            map.put(6L, "июн");
+//            map.put(7L, "июл");
+//            map.put(8L, "авг");
+//            map.put(9L, "сен");
+//            map.put(10L, "окт");
+//            map.put(11L, "ноя");
+//            map.put(12L, "дек");
+//            DateTimeFormatter fmt = new DateTimeFormatterBuilder()
+//                    .appendPattern("dd ")
+//                    .appendText(ChronoField.MONTH_OF_YEAR, map)
+//                    .appendPattern(" yy")
+//                    //.appendLiteral(",")
+//                   // .appendPattern(" HH:mm")
+//                    .toFormatter(new Locale("ru"));
+//            dateTime = LocalDateTime.parse(newDate, fmt);
+//
+//            System.out.println(LocalDate.parse(date, fmt)); // 2018-09-12
+//           // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yy, HH:mm");
+////            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yy, HH:mm").withLocale(Locale.forLanguageTag("ru"));
+////            dateTime = LocalDateTime.parse(date, formatter);
+//        } catch (Exception e) {
+//            System.err.println(e.getMessage());
 //        }
+//        return dateTime;
 //    }
+
+
+    public LocalDateTime getDate( String str) {
+        String time = str.substring(str.indexOf(",") + 2);
+        int hour = new Integer(time.split(":")[0].trim());
+        int min = new Integer(time.split(":")[1].trim());
+        LocalTime localTime = LocalTime.of(hour, min);
+
+        str = str.substring(0, str.indexOf(",")).trim();
+        LocalDate localDate = LocalDate.now();
+
+//        if (str.contains("вчера")) {
+//            localDate.minusDays(1);
+//        } else if (!str.contains("сегодня") && !str.contains("вчера")) {
+        int year = new Integer("20" + str.substring(str.length() - 2));
+        String strMonth = str.substring(2, 6).trim();
+        int day = new Integer(str.substring(0, 2).trim());
+        localDate = LocalDate.of(year, parseMonth(strMonth), day);
+//    }
+//
+        return LocalDateTime.of(localDate, localTime);
+    }
 
 
 
@@ -297,6 +432,5 @@ public class WorkParser implements AutoCloseable {
             e.printStackTrace();
         }
     }
-
 
 }
