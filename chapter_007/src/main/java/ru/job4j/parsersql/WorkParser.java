@@ -227,10 +227,10 @@ public class WorkParser implements AutoCloseable {
         if (!links.contains(URL)) {
             try {
                 Document document = Jsoup.connect(URL).get();
-                Elements otherLinks = document.select("a[href^=\"https://www.sql.ru/forum/job-offers\"]");
+                Elements otherLinks = document.select("a[href^=\"https://www.sql.ru/forum/job-offers/1\"]");
                 for (Element page : otherLinks) {
                     if (links.add(URL)) {
-                        //                     System.out.println(URL);
+                                            // System.out.println(URL);
                     }
                     getPageLinks(page.attr("abs:href"));
                 }
@@ -246,11 +246,15 @@ public class WorkParser implements AutoCloseable {
             try {
                 Document document = Jsoup.connect(x).get();
                 Elements vacancyElement = document.select("a[href^=\"https://www.sql.ru/forum/\"]");
-                for (Element vacancy : vacancyElement) {
-                    if (vacancy.text().matches("^.*?(Java|java|JAVA).*$")) {
-                        if (!vacancy.text().matches("^.*?(Script|script|SCRIPT).*$")) {
-                            Vacancy vac = new Vacancy(getId(vacancy.attr("abs:href")), vacancy.text(),
-                                    vacancy.attr("abs:href"), getText(vacancy.attr("abs:href")), getDate(vacancy.attr("abs:href")));
+                    for (Element vacancy : vacancyElement) {
+                        if(vacancy != null) {
+                            if (vacancy.text().matches("^.*?(Java|java|JAVA).*$")) {
+                                 if (!vacancy.text().matches("^.*?(Script|script|SCRIPT).*$")) {
+                                     if (!vacancy.attr("abs:href").contains("memberinfo")) {
+                                         monthToMap();
+                                         getDataText(vacancy.attr("abs:href"));
+                                         Vacancy vac = new Vacancy(getId(vacancy.attr("abs:href")), vacancy.text(),
+                                             vacancy.attr("abs:href"), getText(vacancy.attr("abs:href")), getDataText(vacancy.attr("abs:href")));
 //                            String insertVacancy = "INSERT INTO " + TABLE + " (vacancy_id, vacancy_title, vacancy_link, vacancy_text, vacancy_date) VALUES" + "(?, ?, ?, ?, ?)";
 //                            try (PreparedStatement ps = connection.prepareStatement(insertVacancy)) {
 //                                ps.setString(1, va.getId());
@@ -261,12 +265,9 @@ public class WorkParser implements AutoCloseable {
 //                            } catch (SQLException e) {
 //                                e.printStackTrace();
 //                            }
-                           // System.out.println(vac);
-                            vacancies.add(vac);
-
-
-//                            System.out.println(vacancy.attr("abs:href"));
-//                            System.out.println(vacancy.text());
+                                          vacancies.add(vac);
+                                     }
+                                 }
                         }
                     }
                 }
@@ -324,100 +325,62 @@ public class WorkParser implements AutoCloseable {
         return description;
     }
 
-    /**
-     * Метод определяет описание вакансии
-     *
-     * @param
-     * @return String
-     * @throws
-     */
-//    public LocalDateTime getDate (String URL) {
-//        String date = null;
-//        LocalDateTime dateTime = null;
-//        LocalDate localDate = LocalDate.now();
-//        try {
-//            Document doc = Jsoup.connect(URL).get();
-//            Element table = doc.select("table").get(1); //select the first table.
-//            Elements rows = table.select("tr");
-//            Element row = table.select("tr").get(2);
-//            Elements cols = row.select("td");
-//            date = cols.get(0).text();
-//            String newDate = date.substring(0, 9);
-//            System.out.println(newDate);
-//            int year = new Integer("20" + date.substring(date.length() - 2));
-//            String strMonth = date.substring(2, 6).trim();
-//            int day = new Integer(date.substring(0, 2).trim());
-//            localDate = LocalDate.of(year, parseMonth(strMonth), day);
-//
-////            String [] arr = date.split("\\s+");
-////            int n = 3; // NUMBER OF WORDS THAT YOU NEED
-//            String nWords = null;
-////
-////            // concatenating number of words that you required
-////            for(int i = 0; i < n ; i++){
-////                nWords = nWords + " " + arr[i] ;
-////                System.out.println(nWords);
-////            }
-////            Pattern pattern = Pattern.compile("\\d{2} \\d{3} \\d{2}");
-////            Matcher matcher = pattern.matcher(date);
-////            if (matcher.find()) {
-////                System.out.println(matcher.group());
-////            }
-////            nWords = matcher.group();
-//
-//
-//            Map<Long, String> map = new HashMap<>();
-//            map.put(1L, "янв");
-//            map.put(2L, "фев");
-//            map.put(3L, "мар");
-//            map.put(4L, "апр");
-//            map.put(5L, "май");
-//            map.put(6L, "июн");
-//            map.put(7L, "июл");
-//            map.put(8L, "авг");
-//            map.put(9L, "сен");
-//            map.put(10L, "окт");
-//            map.put(11L, "ноя");
-//            map.put(12L, "дек");
-//            DateTimeFormatter fmt = new DateTimeFormatterBuilder()
-//                    .appendPattern("dd ")
-//                    .appendText(ChronoField.MONTH_OF_YEAR, map)
-//                    .appendPattern(" yy")
-//                    //.appendLiteral(",")
-//                   // .appendPattern(" HH:mm")
-//                    .toFormatter(new Locale("ru"));
-//            dateTime = LocalDateTime.parse(newDate, fmt);
-//
-//            System.out.println(LocalDate.parse(date, fmt)); // 2018-09-12
-//           // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yy, HH:mm");
-////            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yy, HH:mm").withLocale(Locale.forLanguageTag("ru"));
-////            dateTime = LocalDateTime.parse(date, formatter);
-//        } catch (Exception e) {
-//            System.err.println(e.getMessage());
-//        }
-//        return dateTime;
-//    }
+    public LocalDateTime getDataText (String URL) {
+        String str = null;
+        String str1 = null;
+        String description = null;
+        LocalTime timeCreate = null;
+        LocalDate ld = LocalDate.now();
+
+        Document doc = null;
+        try {
+            doc = Jsoup.connect(URL).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Elements table = null; //select the first table.
+        if (doc != null) {
+            table = doc.getElementsByClass("msgFooter");
+        }
+        if(table.size() != 0) {
+            Element el = table.last();
+           if (el.children().size() > 0) {
+                str = el.text().substring(0, el.text().indexOf("["));
+               String time = str.substring(str.indexOf(",") + 2);
+                int timeHour = Integer.valueOf(time.split(":")[0].trim());
+                int timeMinute = Integer.valueOf(time.split(":")[1].trim());
+                timeCreate = LocalTime.of(timeHour, timeMinute);
+                str1 = str.substring(0, str.indexOf(",")).trim();
+                if (str1.contains("вчера")) {
+                    ld.minusDays(1);
+                } else if (!str1.contains("сегодня") && !str1.contains("вчера")) {
+                    int timeYear = Integer.valueOf("20" + str1.substring(str1.length() - 2));
+                    String timeMonth = str1.substring(2, 6).trim();
+                    int timeDay = Integer.valueOf(str1.substring(0, 2).trim());
+                    ld = LocalDate.of(timeYear, parseMonth(timeMonth), timeDay);
+                }
+            }
+        }
 
 
-    public LocalDateTime getDate( String str) {
-        String time = str.substring(str.indexOf(",") + 2);
-        int hour = new Integer(time.split(":")[0].trim());
-        int min = new Integer(time.split(":")[1].trim());
-        LocalTime localTime = LocalTime.of(hour, min);
+        return LocalDateTime.of(ld, timeCreate);
+    }
 
-        str = str.substring(0, str.indexOf(",")).trim();
-        LocalDate localDate = LocalDate.now();
 
-//        if (str.contains("вчера")) {
-//            localDate.minusDays(1);
-//        } else if (!str.contains("сегодня") && !str.contains("вчера")) {
-        int year = new Integer("20" + str.substring(str.length() - 2));
-        String strMonth = str.substring(2, 6).trim();
-        int day = new Integer(str.substring(0, 2).trim());
-        localDate = LocalDate.of(year, parseMonth(strMonth), day);
-//    }
-//
-        return LocalDateTime.of(localDate, localTime);
+    public void monthToMap() {
+        this.months.put("янв", Month.JANUARY);
+        this.months.put("фев", Month.FEBRUARY);
+        this.months.put("мар", Month.MARCH);
+        this.months.put("апр", Month.APRIL);
+        this.months.put("май", Month.MAY);
+        this.months.put("июн", Month.JUNE);
+        this.months.put("июл", Month.JULY);
+        this.months.put("авг", Month.AUGUST);
+        this.months.put("сен", Month.SEPTEMBER);
+        this.months.put("окт", Month.OCTOBER);
+        this.months.put("ноя", Month.NOVEMBER);
+        this.months.put("дек", Month.DECEMBER);
     }
 
 
