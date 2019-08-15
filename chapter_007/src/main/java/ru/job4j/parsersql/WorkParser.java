@@ -16,6 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.time.Month;
 
+
 /**
  * @author Alex Arkashev (arkasandr@gmail.com)
  * @version $Id$
@@ -67,22 +68,22 @@ public class WorkParser implements AutoCloseable {
     }
 
 
-    public void loadDB(Vacancy vacancy) {
-        String insertIntoSchema = "INSERT INTO " + TABLE
-                +
-                " (id, title, text, link, createDate)" + " VALUES (?,?,?,?,?)";
-        try (
-                PreparedStatement ps = connection.prepareStatement(insertIntoSchema)) {
-            ps.setString(1, vacancy.getId());
-            ps.setString(2, vacancy.getTitle());
-            ps.setString(3, vacancy.getText());
-            ps.setString(4, vacancy.getLink());
-            ps.setTimestamp(5, Timestamp.valueOf(vacancy.getCreateDate()));
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void loadDB(Vacancy vacancy) {
+//        String insertIntoSchema = "INSERT INTO " + TABLE
+//                +
+//                " (id, title, text, link, createDate)" + " VALUES (?,?,?,?,?)";
+//        try (
+//                PreparedStatement ps = connection.prepareStatement(insertIntoSchema)) {
+//            ps.setString(1, vacancy.getId());
+//            ps.setString(2, vacancy.getTitle());
+//            ps.setString(3, vacancy.getText());
+//            ps.setString(4, vacancy.getLink());
+//            ps.setTimestamp(5, Timestamp.valueOf(vacancy.getCreateDate()));
+//            ps.executeUpdate();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
     /**
@@ -227,7 +228,7 @@ public class WorkParser implements AutoCloseable {
         if (!links.contains(URL)) {
             try {
                 Document document = Jsoup.connect(URL).get();
-                Elements otherLinks = document.select("a[href^=\"https://www.sql.ru/forum/job-offers\"]");
+                Elements otherLinks = document.select("a[href^=\"https://www.sql.ru/forum/job-offers/1\"]");
                 for (Element page : otherLinks) {
                     if (links.add(URL)) {
                         //                     System.out.println(URL);
@@ -249,8 +250,12 @@ public class WorkParser implements AutoCloseable {
                 for (Element vacancy : vacancyElement) {
                     if (vacancy.text().matches("^.*?(Java|java|JAVA).*$")) {
                         if (!vacancy.text().matches("^.*?(Script|script|SCRIPT).*$")) {
-                            Vacancy vac = new Vacancy(getId(vacancy.attr("abs:href")), vacancy.text(),
-                                    vacancy.attr("abs:href"), getText(vacancy.attr("abs:href")), getDate(vacancy.attr("abs:href")));
+                           //getData(vacancy.attr("abs:href"));
+                           // Vacancy vac = new Vacancy(getId(vacancy.attr("abs:href")), vacancy.text(),
+                                    //vacancy.attr("abs:href"), getText(vacancy.attr("abs:href")), getData(vacancy.attr("abs:href")));
+                            fillMap();
+                             Vacancy vac = new Vacancy(null, null,
+                            null, null, getData(vacancy.attr("abs:href")));
 //                            String insertVacancy = "INSERT INTO " + TABLE + " (vacancy_id, vacancy_title, vacancy_link, vacancy_text, vacancy_date) VALUES" + "(?, ?, ?, ?, ?)";
 //                            try (PreparedStatement ps = connection.prepareStatement(insertVacancy)) {
 //                                ps.setString(1, va.getId());
@@ -274,7 +279,7 @@ public class WorkParser implements AutoCloseable {
                 System.err.println(e.getMessage());
             }
             for(Vacancy v:vacancies) {
-                System.out.println(v);
+               System.out.println(v);
             }
         });
     }
@@ -331,6 +336,49 @@ public class WorkParser implements AutoCloseable {
      * @return String
      * @throws
      */
+
+    public LocalDateTime getData(String URL) {
+  //  public void getData(String URL) {
+        String str = null;
+        String str1 = null;
+        String description = null;
+        LocalTime localTime = null;
+//        try {
+        Document doc = null;
+        try {
+            doc = Jsoup.connect(URL).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Elements els = null;
+        Element el = null;
+        if (doc != null) {
+            //el = doc.getElementsByClass("msgFooter").last();
+            els = doc.getElementsByClass("msgFooter");
+            el = els.get(els.size() - 1);
+
+        }
+        str = el.text().substring(0, el.text().indexOf("["));
+       // System.out.println(str);
+            String time = str.substring(str.indexOf(",") + 2);
+            int hour = Integer.valueOf(time.split(":")[0].trim());
+            int min = Integer.valueOf(time.split(":")[1].trim());
+            localTime = LocalTime.of(hour, min);
+
+            str1 = str.substring(0, str.indexOf(",")).trim();
+            LocalDate localDate = LocalDate.now();
+
+            if (str1.contains("вчера")) {
+                localDate.minusDays(1);
+            } else if (!str1.contains("сегодня") && !str1.contains("вчера")) {
+                int year = Integer.valueOf("20" + str1.substring(str1.length() - 2));
+                String strMonth = str1.substring(2, 6).trim();
+                int day = Integer.valueOf(str1.substring(0, 2).trim());
+                localDate = LocalDate.of(year, parseMonth(strMonth), day);
+            }
+
+        return LocalDateTime.of(localDate, localTime);
+    }
 //    public LocalDateTime getDate (String URL) {
 //        String date = null;
 //        LocalDateTime dateTime = null;
@@ -398,26 +446,19 @@ public class WorkParser implements AutoCloseable {
 //        return dateTime;
 //    }
 
-
-    public LocalDateTime getDate( String str) {
-        String time = str.substring(str.indexOf(",") + 2);
-        int hour = new Integer(time.split(":")[0].trim());
-        int min = new Integer(time.split(":")[1].trim());
-        LocalTime localTime = LocalTime.of(hour, min);
-
-        str = str.substring(0, str.indexOf(",")).trim();
-        LocalDate localDate = LocalDate.now();
-
-//        if (str.contains("вчера")) {
-//            localDate.minusDays(1);
-//        } else if (!str.contains("сегодня") && !str.contains("вчера")) {
-        int year = new Integer("20" + str.substring(str.length() - 2));
-        String strMonth = str.substring(2, 6).trim();
-        int day = new Integer(str.substring(0, 2).trim());
-        localDate = LocalDate.of(year, parseMonth(strMonth), day);
-//    }
-//
-        return LocalDateTime.of(localDate, localTime);
+    public void fillMap() {
+        this.months.put("янв", Month.JANUARY);
+        this.months.put("фев", Month.FEBRUARY);
+        this.months.put("мар", Month.MARCH);
+        this.months.put("апр", Month.APRIL);
+        this.months.put("май", Month.MAY);
+        this.months.put("июн", Month.JUNE);
+        this.months.put("июл", Month.JULY);
+        this.months.put("авг", Month.AUGUST);
+        this.months.put("сен", Month.SEPTEMBER);
+        this.months.put("окт", Month.OCTOBER);
+        this.months.put("ноя", Month.NOVEMBER);
+        this.months.put("дек", Month.DECEMBER);
     }
 
 

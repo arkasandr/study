@@ -1,6 +1,7 @@
 package ru.job4j.parsersql;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Vacancy {
     private String id;
