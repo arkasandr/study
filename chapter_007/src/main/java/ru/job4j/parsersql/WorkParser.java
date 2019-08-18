@@ -27,8 +27,8 @@ public class WorkParser implements AutoCloseable {
 
     private final Config config;
     private Connection connection;
-    private static final String TABLE = "vacancy";
-    private static final String DATABASE = "vacancies.db";
+    private static final String TABLE = "vacancies";
+    private static final String DATABASE = "sqlvacancies.db";
 
     private HashSet<String> links;
    // private List<Vacancy> vacancies;
@@ -204,12 +204,12 @@ public class WorkParser implements AutoCloseable {
      */
     private boolean createSchema() {
         boolean result = false;
-        String createSchema = "CREATE TABLE IF NOT EXISTS " + TABLE + " ("
-                + "vacancy_id INTEGER NOT NULL "
-                + "vacancy_title VARCHAR(1000) "
-                + "vacancy_link VARCHAR(1000) "
-                + "vacancy_text VARCHAR(1000)"
-                + "vacancy_date TIMESTAMP "
+        String createSchema = "CREATE TABLE " + TABLE + " ("
+                + "vacancy_id INTEGER NOT NULL, "
+                + "vacancy_title VARCHAR(1000), "
+                + "vacancy_link VARCHAR(1000), "
+                + "vacancy_text VARCHAR(1000), "
+                + "vacancy_date TIMESTAMP"
 
                 + ")";
         try (
@@ -252,19 +252,20 @@ public class WorkParser implements AutoCloseable {
                                  if (!vacancy.text().matches("^.*?(Script|script|SCRIPT).*$")) {
                                      if (!vacancy.attr("abs:href").contains("memberinfo")) {
                                          monthToMap();
-                                         getDataText(vacancy.attr("abs:href"));
-                                         Vacancy vac = new Vacancy(getId(vacancy.attr("abs:href")), vacancy.text(),
-                                             vacancy.attr("abs:href"), getText(vacancy.attr("abs:href")), getDataText(vacancy.attr("abs:href")));
-//                            String insertVacancy = "INSERT INTO " + TABLE + " (vacancy_id, vacancy_title, vacancy_link, vacancy_text, vacancy_date) VALUES" + "(?, ?, ?, ?, ?)";
-//                            try (PreparedStatement ps = connection.prepareStatement(insertVacancy)) {
-//                                ps.setString(1, va.getId());
-//                                ps.setString(2, item.getName());
-//                                ps.setString(3, item.getDescription());
-//                                ps.setTimestamp(4, new java.sql.Timestamp(System.currentTimeMillis()));
-//                                ps.executeUpdate();
-//                            } catch (SQLException e) {
-//                                e.printStackTrace();
-//                            }
+                                         getUrlData(vacancy.attr("abs:href"));
+                                         Vacancy vac = new Vacancy(getUrlId(vacancy.attr("abs:href")), vacancy.text(),
+                                             vacancy.attr("abs:href"), getUrlText(vacancy.attr("abs:href")), getUrlData(vacancy.attr("abs:href")));
+                            String insertVacancy = "INSERT INTO " + TABLE + " (vacancy_id, vacancy_title, vacancy_link, vacancy_text, vacancy_date) VALUES" + "(?, ?, ?, ?, ?)";
+                            try (PreparedStatement ps = connection.prepareStatement(insertVacancy)) {
+                                ps.setString(1, vac.getId());
+                                ps.setString(2, vac.getTitle());
+                                ps.setString(3, vac.getText());
+                                ps.setString(4, vac.getLink());
+                                ps.setTimestamp(5, Timestamp.valueOf(vac.getCreateDate()));
+                                ps.executeUpdate();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
                                           vacancies.add(vac);
                                      }
                                  }
@@ -287,9 +288,8 @@ public class WorkParser implements AutoCloseable {
      * @return String
      * @throws
      */
-    public String getId (String href) {
+    public String getUrlId (String href) {
         String numberId = null;
-       // Pattern p = Pattern.compile("\\+[0-9]{12}");
         Pattern p = Pattern.compile("(\\d+)");
         Matcher m = p.matcher(href);
         if (m.find()) {
@@ -310,7 +310,7 @@ public class WorkParser implements AutoCloseable {
      * @return String
      * @throws
      */
-    public String getText (String URL) {
+    public String getUrlText (String URL) {
         String description = null;
         try {
             Document doc = Jsoup.connect(URL).get();
@@ -325,7 +325,7 @@ public class WorkParser implements AutoCloseable {
         return description;
     }
 
-    public LocalDateTime getDataText (String URL) {
+    public LocalDateTime getUrlData (String URL) {
         String str = null;
         String str1 = null;
         String description = null;
